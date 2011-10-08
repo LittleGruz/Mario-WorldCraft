@@ -1,0 +1,23 @@
+name: MarioWorld
+main: littlegruz.marioworld.MarioMain
+version: 2.0
+commands:
+   mariorestart:
+      description: Resets all the Mario item blocks and player stats to their original state
+      usage: /mariorestart
+   mariodamage:
+      description: Toggles the damage to and from being similar to in the Mario games
+      usage: /mariodamage
+   addmarioworld:
+      description: Adds the current world to the list of worlds effected by the mod
+      usage: /addmarioworld
+   removemarioworld:
+      description: Removes the current world from the list of worlds effected by the mod
+      usage: /removemarioworld
+   clearmariocheckpoints:
+      description: Resets the checkpoint back to the default spawn
+      usage: /clearmariocheckpoints
+permissions:
+   marioworld.mariorestart:
+      description: Resets the Mario blocks
+      default: op
