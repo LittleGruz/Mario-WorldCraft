@@ -26,7 +26,7 @@ public class MarioBlockListener extends BlockListener{
    public void onBlockDamage(BlockDamageEvent event){
       // Add a block as a MarioBlock if hit by an op with a redstone torch
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
-         if(!event.getPlayer().isOp())
+         if(!event.getPlayer().isOp() || event.getInstaBreak())
             return;
          if(event.getItemInHand().getType().compareTo(Material.REDSTONE_TORCH_ON) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
@@ -59,6 +59,15 @@ public class MarioBlockListener extends BlockListener{
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "super"));
                event.getPlayer().sendMessage("Super mushroom block saved");
+            }
+            else{
+               plugin.getBlockMap().remove(event.getBlock().getLocation());
+               event.getPlayer().sendMessage("Special block removed");
+            }
+         } else if(event.getItemInHand().getType().compareTo(Material.RED_ROSE) == 0){
+            if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
+               plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "fire"));
+               event.getPlayer().sendMessage("Fire flower block saved");
             }
             else{
                plugin.getBlockMap().remove(event.getBlock().getLocation());

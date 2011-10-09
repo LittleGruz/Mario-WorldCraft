@@ -7,15 +7,17 @@ import littlegruz.marioworld.entities.MarioPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-/* Total music downloads required total 456KB*/
+/* Total music downloads required total 463KB*/
 
 public class MarioPlayerListener extends PlayerListener{
    private static MarioMain plugin;
@@ -31,7 +33,7 @@ public class MarioPlayerListener extends PlayerListener{
 
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
          if(plugin.getPlayerMap().get(event.getPlayer().getName()).getHitBlock() != null
-               && event.getPlayer().getFallDistance() == 0){
+               && playerEye.getY() - (int) playerEye.getY() < 0.74){
             plugin.getPlayerMap().get(event.getPlayer().getName()).setHitBlock(null);
          }
          
@@ -49,6 +51,9 @@ public class MarioPlayerListener extends PlayerListener{
             if(block.getType().compareTo(Material.AIR) != 0
                   && block.getType().compareTo(Material.STATIONARY_WATER) != 0
                   && block.getType().compareTo(Material.WATER) != 0
+                  && block.getType().compareTo(Material.SIGN) != 0
+                  && block.getType().compareTo(Material.SIGN_POST) != 0
+                  && block.getType().compareTo(Material.WALL_SIGN) != 0
                   && mp.getHitBlock() == null){
                mp.setHitBlock(block);
                
@@ -68,8 +73,10 @@ public class MarioPlayerListener extends PlayerListener{
                   } else if(mb.getBlockType().compareToIgnoreCase("coin") == 0){
                      coinGet(mp, sp, 1);
                   } else if(mb.getBlockType().compareToIgnoreCase("poison") == 0){
+                     topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.BROWN_MUSHROOM, 1));
                      SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
                   } else if(mb.getBlockType().compareToIgnoreCase("super") == 0){
+                     topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_MUSHROOM, 1));
                      SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
                   }
                }
@@ -115,19 +122,14 @@ public class MarioPlayerListener extends PlayerListener{
             event.getItem().remove();
             event.setCancelled(true);
             if(mp.getState().compareToIgnoreCase("Small") == 0){
-               event.getPlayer().setHealth(0);
-               mp.setLives(mp.getLives() - 1);
-               if(mp.getLives() == 0){
-                  //Play gameover music and display a large "Game Over" label
-                  //plugin.getServer().getPlayer(mp.getPlayaName()).sendMessage("Game Over");
-                  //plugin.getGui().placeGameOver(event.getPlayer());
-                  plugin.clearCheckpoint(mp.getPlayaName(), event.getPlayer().getWorld().getUID());
-                  // File size 164KB
-                  SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_gameover.wav", true);
-               }else
-                  // File size 118KB
-                  SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_mariodie.wav", true);
-            } else {
+               event.getPlayer().damage(1000);
+               plugin.deathSequence(event.getPlayer());
+            } else if(mp.getState().compareToIgnoreCase("Fire") == 0){
+               event.getPlayer().sendMessage("You've shrunk");
+               plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Large");
+               // File size 8KB
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+            } else{
                event.getPlayer().sendMessage("You've shrunk");
                plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Small");
                // File size 8KB
@@ -148,6 +150,22 @@ public class MarioPlayerListener extends PlayerListener{
             event.setCancelled(true);
             SpoutPlayer sp = SpoutManager.getPlayer(event.getPlayer());
             coinGet(mp, sp, 1);
+         }
+         // Effect given when obtaining a fire flower
+         else if(event.getItem().getItemStack().getType().compareTo(Material.RED_ROSE) == 0){
+            event.getItem().remove();
+            event.setCancelled(true);
+            if(mp.getState().compareToIgnoreCase("Large") == 0){
+               event.getPlayer().sendMessage("Fire powah!");
+               mp.setState("Fire");
+               // File size 10KB
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
+            } else{
+               event.getPlayer().sendMessage("You've grown!");
+               mp.setState("Large");
+               // File size 10KB
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
+            }
          }
       }
       plugin.getGui().update(event.getPlayer());
@@ -182,12 +200,22 @@ public class MarioPlayerListener extends PlayerListener{
          MarioPlayer mp;
          mp = plugin.getPlayerMap().get(event.getPlayer().getName());
          mp.setState("Small");
-         if(mp.getLives() == 0){
+         if(mp.getLives() <= 0){
             mp.setLives(3);
          }
          event.setRespawnLocation(mp.getCheckpoint());
          //plugin.getGui().removeGameOver(event.getPlayer());
          plugin.getGui().update(event.getPlayer());
+      }
+   }
+   
+   public void onPlayerEggThrow(PlayerEggThrowEvent event){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+         if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){
+            // File size 7KB
+            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_fireball.wav", true);
+         }
+         event.setHatching(false);
       }
    }
 }

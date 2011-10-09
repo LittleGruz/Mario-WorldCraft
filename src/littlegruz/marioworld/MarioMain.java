@@ -36,6 +36,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.SpoutManager;
 
 public class MarioMain extends JavaPlugin{
    Logger log = Logger.getLogger("This is MINECRAFT!");
@@ -146,6 +147,7 @@ public class MarioMain extends JavaPlugin{
       pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Event.Priority.Normal, this);
       pm.registerEvent(Event.Type.PLAYER_PICKUP_ITEM, playerListener, Event.Priority.Normal, this);
       pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Normal, this);
+      pm.registerEvent(Event.Type.PLAYER_EGG_THROW, playerListener, Event.Priority.Normal, this);
       pm.registerEvent(Event.Type.BLOCK_DAMAGE, blockListener, Event.Priority.Normal, this);
       pm.registerEvent(Event.Type.BLOCK_PHYSICS, blockListener, Event.Priority.Normal, this);
       pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.Normal, this);
@@ -154,7 +156,7 @@ public class MarioMain extends JavaPlugin{
       
       gui = new MarioGUI(this);
       marioDamage = false;
-      log.info("Mario World v2.0 Enabled");
+      log.info("Mario World v2.1 Enabled");
    }
 
    public void onDisable(){
@@ -330,6 +332,21 @@ public class MarioMain extends JavaPlugin{
          return name;
       } else
          return name + " not";
+   }
+   
+   public void deathSequence(Player playa){
+      MarioPlayer mp = playerMap.get(playa.getName());
+      mp.setLives(mp.getLives() - 1);
+      if(mp.getLives() == 0){
+         //Play gameover music and display a large "Game Over" label
+         //plugin.getServer().getPlayer(mp.getPlayaName()).sendMessage("Game Over");
+         //plugin.getGui().placeGameOver(event.getPlayer());
+         clearCheckpoint(mp.getPlayaName(), playa.getWorld().getUID());
+         // File size 164KB
+         SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_gameover.wav", true);
+      }else
+         // File size 118KB
+         SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_mariodie.wav", true);
    }
    
    public HashMap<Location, MarioBlock> getBlockMap(){
