@@ -48,7 +48,7 @@ public class MarioEntityListener extends EntityListener{
                plugin.getGui().update(playa);
             }else{
                event.setCancelled(true);
-               if(event.getCause().compareTo(DamageCause.FIRE_TICK) == 0
+               if(event.getCause().compareTo(DamageCause.FIRE) == 0
                      || event.getCause().compareTo(DamageCause.LAVA) == 0){
                   plugin.deathSequence(playa);
                   playa.damage(1000);

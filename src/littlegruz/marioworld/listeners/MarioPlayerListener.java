@@ -49,12 +49,10 @@ public class MarioPlayerListener extends PlayerListener{
             
             MarioPlayer mp = plugin.getPlayerMap().get(event.getPlayer().getName());
             if(block.getType().compareTo(Material.AIR) != 0
-                  && block.getType().compareTo(Material.STATIONARY_WATER) != 0
-                  && block.getType().compareTo(Material.WATER) != 0
                   && block.getType().compareTo(Material.SIGN) != 0
                   && block.getType().compareTo(Material.SIGN_POST) != 0
                   && block.getType().compareTo(Material.WALL_SIGN) != 0
-                  && mp.getHitBlock() == null){
+                  && !block.isLiquid() && mp.getHitBlock() == null){
                mp.setHitBlock(block);
                
                /* Check that the hit block isn't already hit and that it is
@@ -82,21 +80,25 @@ public class MarioPlayerListener extends PlayerListener{
                }
                /* Destroys the block hit if it is breakable and if the player is
                 * in their big form*/
-               else if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Large") == 0){
-               // TODO Perhaps put in a feature which allows the creation of breakable blocks?
-                  if(block.getType().compareTo(Material.BRICK) == 0
-                        || block.getType().compareTo(Material.COBBLESTONE) == 0){
-                     // File size 25KB
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_breakblock.wav", true);
-                     if(plugin.isMarioDamage()){
-                        block.setType(Material.AIR);
-                     }
-                  }else
-                     // File size 11KB
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+               else if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Large") == 0
+                     || plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){
+                  // TODO Perhaps put in a feature which allows the creation of breakable blocks?
+                  if(plugin.isMarioDamage()){
+                     if(block.getType().compareTo(Material.BRICK) == 0
+                           || block.getType().compareTo(Material.COBBLESTONE) == 0){
+                           block.setType(Material.AIR);
+                           // File size 25KB
+                           SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_breakblock.wav", true);
+                     }else
+                        // File size 11KB
+                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+                  }
                }
-               else
-                  SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+               else{
+                  if(plugin.isMarioDamage()){
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+                  }
+               }
                plugin.getGui().update(event.getPlayer());
             }
          }
@@ -158,6 +160,7 @@ public class MarioPlayerListener extends PlayerListener{
             if(mp.getState().compareToIgnoreCase("Large") == 0){
                event.getPlayer().sendMessage("Fire powah!");
                mp.setState("Fire");
+               event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
                // File size 10KB
                SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
             } else{
@@ -212,6 +215,7 @@ public class MarioPlayerListener extends PlayerListener{
    public void onPlayerEggThrow(PlayerEggThrowEvent event){
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
          if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){
+            event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
             // File size 7KB
             SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_fireball.wav", true);
          }

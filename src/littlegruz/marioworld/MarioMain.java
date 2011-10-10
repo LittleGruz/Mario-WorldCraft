@@ -238,6 +238,7 @@ public class MarioMain extends JavaPlugin{
                      mb.getValue().setHit(false);
                   }
                }
+               // Reset the players stats to the default
                Iterator<Map.Entry<String, MarioPlayer>> itPlayer = playerMap.entrySet().iterator();
                while(itPlayer.hasNext()){
                   Entry<String, MarioPlayer> mp = itPlayer.next();
@@ -251,6 +252,14 @@ public class MarioMain extends JavaPlugin{
                   }
                   if(mp.getValue().getCheckpoint().getWorld().getUID().equals(playa.getWorld().getUID())){
                      clearCheckpoint(mp.getValue().getPlayaName(), playa.getWorld().getUID());
+                     mp.getValue().setCoins(0);
+                     mp.getValue().setLives(3);
+                     mp.getValue().setState("Small");
+                     
+                     Player player = getServer().getPlayer(mp.getValue().getPlayaName());
+                     if(player != null && player.getItemInHand().getType().compareTo(Material.EGG) == 0){
+                        getServer().getPlayer(mp.getValue().getPlayaName()).setItemInHand(null);
+                     }
                   }
                }
                gui.update(playa);
