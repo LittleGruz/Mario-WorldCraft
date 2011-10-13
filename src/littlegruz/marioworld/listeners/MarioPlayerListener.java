@@ -72,10 +72,10 @@ public class MarioPlayerListener extends PlayerListener{
                      coinGet(mp, sp, 1);
                   } else if(mb.getBlockType().compareToIgnoreCase("poison") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.BROWN_MUSHROOM, 1));
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                   } else if(mb.getBlockType().compareToIgnoreCase("super") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_MUSHROOM, 1));
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                   }
                }
                /* Destroys the block hit if it is breakable and if the player is
