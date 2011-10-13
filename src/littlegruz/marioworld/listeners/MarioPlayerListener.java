@@ -63,11 +63,11 @@ public class MarioPlayerListener extends PlayerListener{
                   block.setType(Material.STONE);
 
                   SpoutPlayer sp = SpoutManager.getPlayer(event.getPlayer());
+                  // Compare against all the types of special blocks
                   if(mb.getBlockType().compareToIgnoreCase("question") == 0){
                      topBlockLoc.getBlock().setType(Material.REDSTONE_TORCH_ON);
                      // File size 27KB
                      SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
-                     
                   } else if(mb.getBlockType().compareToIgnoreCase("coin") == 0){
                      coinGet(mp, sp, 1);
                   } else if(mb.getBlockType().compareToIgnoreCase("poison") == 0){
@@ -75,6 +75,9 @@ public class MarioPlayerListener extends PlayerListener{
                      SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                   } else if(mb.getBlockType().compareToIgnoreCase("super") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_MUSHROOM, 1));
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                  } else if(mb.getBlockType().compareToIgnoreCase("fire") == 0){
+                     topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_ROSE, 1));
                      SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                   }
                }

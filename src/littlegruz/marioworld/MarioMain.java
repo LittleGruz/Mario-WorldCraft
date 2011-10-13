@@ -156,7 +156,7 @@ public class MarioMain extends JavaPlugin{
       
       gui = new MarioGUI(this);
       marioDamage = false;
-      log.info("Mario World v2.1 Enabled");
+      log.info("Mario World v2.1.1 Enabled");
    }
 
    public void onDisable(){
