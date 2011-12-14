@@ -39,6 +39,18 @@ public class MarioGUI{
       state.setY(10);
       lives.setX(312);
       lives.setY(10);
+      coins.setHeight(9);
+      coins.setWidth(80);
+      state.setHeight(9);
+      state.setWidth(80);
+      lives.setHeight(9);
+      lives.setWidth(80);
+      coinLabel.setHeight(9);
+      coinLabel.setWidth(80);
+      stateLabel.setHeight(9);
+      stateLabel.setWidth(80);
+      lifeLabel.setHeight(9);
+      lifeLabel.setWidth(80);
       coinLabel.setTextColor(new Color(255,215,0));
       coins.setTextColor(new Color(255,215,0));
       stateLabel.setTextColor(new Color(255,153,18));
