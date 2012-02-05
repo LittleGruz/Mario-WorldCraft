@@ -48,6 +48,7 @@ public class MarioMain extends JavaPlugin{
    private HashMap<Location, MarioBlock> blockMap;
    private HashMap<String, MarioPlayer> playerMap;
    private HashMap<String, String> worldMap;
+   //private HashMap<String, String> invMap;
    private File blockFile;
    private File playerFile;
    private File worldFile;
@@ -156,7 +157,7 @@ public class MarioMain extends JavaPlugin{
       
       gui = new MarioGUI(this);
       marioDamage = false;
-      log.info("Mario World v2.1.1 Enabled");
+      log.info("Mario World v2.2 Enabled");
    }
 
    public void onDisable(){
@@ -218,6 +219,8 @@ public class MarioMain extends JavaPlugin{
       }catch(IOException e){
          log.info("Error saving Mario worlds");
       }
+      
+      log.info("Mario World v2.2 shutdown successfully");
    }
    
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){

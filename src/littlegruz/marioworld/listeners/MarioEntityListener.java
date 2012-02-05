@@ -24,6 +24,17 @@ public class MarioEntityListener extends EntityListener{
       if(plugin.getWorldMap().containsKey(event.getEntity().getWorld().getUID().toString())){
          if(plugin.isMarioDamage() && event.getEntity() instanceof Player){
             Player playa = (Player) event.getEntity();
+            if(plugin.getPlayerMap().get(playa.getName()).isInvincible()){
+               /* If player is invincible then kill whatever touched the player
+                * or just ignore any projectile or environment damage*/
+               if(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent){
+                  EntityDamageByEntityEvent entityDamageEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
+                  if(entityDamageEvent.getDamager() instanceof Monster)
+                     ((Monster) entityDamageEvent.getDamager()).damage(1000);
+               }
+               return;
+            }
+            
             /* Check if the damage taken is from a monster, if it is then demote
              * the players state. But if it is lava, then kill the player */
             if(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent){
@@ -32,18 +43,18 @@ public class MarioEntityListener extends EntityListener{
                String entityName = entityDamageEvent.getDamager().toString().substring(5);
                if(entityDamageEvent.getDamager() instanceof Monster
                      || entityName.compareToIgnoreCase("arrow") == 0){
-                     if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Large") == 0){
-                        plugin.getPlayerMap().get(playa.getName()).setState("Small");
-                        playa.sendMessage("You've shrunk");
-                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
-                     }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Small") == 0){
-                        plugin.deathSequence(playa);
-                        playa.damage(1000);
-                     }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Fire") == 0){
-                        plugin.getPlayerMap().get(playa.getName()).setState("Large");
-                        playa.sendMessage("You've shrunk");
-                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
-                     }
+                  if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Large") == 0){
+                     plugin.getPlayerMap().get(playa.getName()).setState("Small");
+                     playa.sendMessage("You've shrunk");
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+                  }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Small") == 0){
+                     plugin.deathSequence(playa);
+                     playa.damage(1000);
+                  }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Fire") == 0){
+                     plugin.getPlayerMap().get(playa.getName()).setState("Large");
+                     playa.sendMessage("You've shrunk");
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+                  }
                }
                plugin.getGui().update(playa);
             }else{

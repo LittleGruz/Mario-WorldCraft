@@ -173,6 +173,23 @@ public class MarioPlayerListener extends PlayerListener{
                SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
             }
          }
+         // Effect given when obtaining a star
+         else if(event.getItem().getItemStack().getType().compareTo(Material.COOKIE) == 0){
+            final MarioPlayer mPlayer = mp;
+            // File size 441KB
+            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/starman.wav", true);
+            event.getPlayer().sendMessage("Immortal");
+            
+            // Set invincibility to run out when the music stops (14.09s)
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+               public void run() {
+                   mPlayer.setInvincible(false);
+                   plugin.getServer().getPlayer(mPlayer.getPlayaName()).sendMessage("Mortal");
+               }
+           }, 182L);
+            
+         }
       }
       plugin.getGui().update(event.getPlayer());
    }

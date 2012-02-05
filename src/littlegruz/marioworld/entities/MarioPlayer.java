@@ -11,6 +11,7 @@ public class MarioPlayer{
    private Location checkpoint;
    private int coins;
    private int lives;
+   private boolean invincible;
 
    public MarioPlayer(String player, Location spawn){
       playaName = player;
@@ -20,6 +21,7 @@ public class MarioPlayer{
       hitBlock = null;
       coins = 0;
       lives = 0;
+      invincible = false;
    }
    
    public MarioPlayer(String player, String state, Location spawn, int coins, int lives){
@@ -30,6 +32,7 @@ public class MarioPlayer{
       hitBlock = null;
       this.coins = coins;
       this.lives = lives;
+      invincible = false;
    }
 
    public String getPlayaName(){
@@ -86,5 +89,13 @@ public class MarioPlayer{
 
    public int getLives(){
       return lives;
+   }
+
+   public boolean isInvincible() {
+      return invincible;
+   }
+
+   public void setInvincible(boolean invincible) {
+      this.invincible = invincible;
    }
 }
