@@ -33,18 +33,11 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
 
 public class MarioMain extends JavaPlugin{
    Logger log = Logger.getLogger("This is MINECRAFT!");
-   private final MarioPlayerListener playerListener = new MarioPlayerListener(this);
-   private final MarioBlockListener blockListener = new MarioBlockListener(this);
-   private final MarioEntityListener entityListener = new MarioEntityListener(this);
-   private final MarioSpoutListener spoutListener = new MarioSpoutListener(this);
-   private final MarioScreenListener spoutScreenListener = new MarioScreenListener(this);
    private HashMap<Location, MarioBlock> blockMap;
    private HashMap<String, MarioPlayer> playerMap;
    private HashMap<String, String> worldMap;
@@ -143,17 +136,11 @@ public class MarioMain extends JavaPlugin{
       }
 
       // Set up the event listeners
-      PluginManager pm = this.getServer().getPluginManager();
-      pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.PLAYER_PICKUP_ITEM, playerListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.PLAYER_EGG_THROW, playerListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.BLOCK_DAMAGE, blockListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.BLOCK_PHYSICS, blockListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.CUSTOM_EVENT, spoutListener, Event.Priority.Normal, this);
-      pm.registerEvent(Event.Type.CUSTOM_EVENT, spoutScreenListener, Event.Priority.Normal, this);
+      getServer().getPluginManager().registerEvents(new MarioPlayerListener(this), this);
+      getServer().getPluginManager().registerEvents(new MarioBlockListener(this), this);
+      getServer().getPluginManager().registerEvents(new MarioEntityListener(this), this);
+      getServer().getPluginManager().registerEvents(new MarioScreenListener(this), this);
+      getServer().getPluginManager().registerEvents(new MarioSpoutListener(this), this);
       
       gui = new MarioGUI(this);
       marioDamage = false;

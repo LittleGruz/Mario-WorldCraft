@@ -6,20 +6,22 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityInteractEvent;
-import org.bukkit.event.entity.EntityListener;
 import org.getspout.spoutapi.SpoutManager;
 
-public class MarioEntityListener extends EntityListener{
+public class MarioEntityListener implements Listener{
    private static MarioMain plugin;
    
    public MarioEntityListener(MarioMain instance){
       plugin = instance;
    }
-   
+
+   @EventHandler
    public void onEntityDamage(EntityDamageEvent event){
       if(plugin.getWorldMap().containsKey(event.getEntity().getWorld().getUID().toString())){
          if(plugin.isMarioDamage() && event.getEntity() instanceof Player){
@@ -84,7 +86,8 @@ public class MarioEntityListener extends EntityListener{
          }
       }
    }
-   
+
+   @EventHandler
    public void onEntityInteract(EntityInteractEvent event){
       if(event.getEntity() instanceof Player){
          Player player = (Player) event.getEntity();

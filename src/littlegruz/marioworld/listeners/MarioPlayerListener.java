@@ -7,9 +7,10 @@ import littlegruz.marioworld.entities.MarioPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -17,15 +18,16 @@ import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-/* Total music downloads required total 463KB*/
+/* Total music downloads required: 463KB*/
 
-public class MarioPlayerListener extends PlayerListener{
+public class MarioPlayerListener implements Listener{
    private static MarioMain plugin;
    
    public MarioPlayerListener(MarioMain instance) {
            plugin = instance;
    }
-   
+
+   @EventHandler
    public void onPlayerMove(PlayerMoveEvent event){
       Location playerEye = event.getPlayer().getEyeLocation();
       Location blockLoc, topBlockLoc;
@@ -107,7 +109,8 @@ public class MarioPlayerListener extends PlayerListener{
          }
       }
    }
-   
+
+   @EventHandler
    public void onPlayerPickupItem(PlayerPickupItemEvent event){
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString()) && plugin.isMarioDamage()){
          MarioPlayer mp = plugin.getPlayerMap().get(event.getPlayer().getName());
@@ -207,6 +210,7 @@ public class MarioPlayerListener extends PlayerListener{
    
    /* When a player joins, add them to the Mario Player ArrayList if they
     * aren't already in the list*/
+   @EventHandler
    public void onPlayerJoin(PlayerJoinEvent event){
       if(plugin.getPlayerMap().get(event.getPlayer().getName()) == null){
          String name = event.getPlayer().getName();
@@ -217,7 +221,8 @@ public class MarioPlayerListener extends PlayerListener{
          event.getPlayer().sendMessage("Welcome " + event.getPlayer().getName() + " to a Mario WorldCraft world");
       }
    }
-   
+
+   @EventHandler
    public void onPlayerRespawn(PlayerRespawnEvent event){
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
          MarioPlayer mp;
@@ -231,7 +236,8 @@ public class MarioPlayerListener extends PlayerListener{
          plugin.getGui().update(event.getPlayer());
       }
    }
-   
+
+   @EventHandler
    public void onPlayerEggThrow(PlayerEggThrowEvent event){
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
          if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){

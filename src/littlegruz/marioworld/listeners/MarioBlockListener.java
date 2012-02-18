@@ -11,18 +11,20 @@ import littlegruz.marioworld.entities.MarioPlayer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 
-public class MarioBlockListener extends BlockListener{
+public class MarioBlockListener implements Listener{
 
    public static MarioMain plugin;
    
    public MarioBlockListener(MarioMain instance) {
            plugin = instance;
    }
-   
+
+   @EventHandler
    public void onBlockDamage(BlockDamageEvent event){
       // Add a block as a MarioBlock if hit by an op with a redstone torch
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
@@ -76,7 +78,8 @@ public class MarioBlockListener extends BlockListener{
          }
       }
    }
-   
+
+   @EventHandler
    public void onBlockPhysics(BlockPhysicsEvent event){
       if(plugin.getWorldMap().containsKey(event.getBlock().getWorld().getUID().toString())
             && event.getBlock().getType().compareTo(Material.STONE_PLATE) == 0
