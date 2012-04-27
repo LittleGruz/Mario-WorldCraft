@@ -178,6 +178,8 @@ public class MarioPlayerListener implements Listener{
          }
          // Effect given when obtaining a star
          else if(event.getItem().getItemStack().getType().compareTo(Material.COOKIE) == 0){
+            event.getItem().remove();
+            event.setCancelled(true);
             final MarioPlayer mPlayer = mp;
             // File size 441KB
             SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/starman.wav", true);
