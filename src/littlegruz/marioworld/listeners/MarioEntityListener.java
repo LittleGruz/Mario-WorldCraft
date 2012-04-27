@@ -34,6 +34,7 @@ public class MarioEntityListener implements Listener{
                   if(entityDamageEvent.getDamager() instanceof Monster)
                      ((Monster) entityDamageEvent.getDamager()).damage(1000);
                }
+               event.setCancelled(true);
                return;
             }
             
@@ -48,14 +49,14 @@ public class MarioEntityListener implements Listener{
                   if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Large") == 0){
                      plugin.getPlayerMap().get(playa.getName()).setState("Small");
                      playa.sendMessage("You've shrunk");
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+                     SpoutManager.getSoundManager().playCustomSoundEffect(plugin, SpoutManager.getPlayer(playa), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
                   }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Small") == 0){
                      plugin.deathSequence(playa);
                      playa.damage(1000);
                   }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Fire") == 0){
                      plugin.getPlayerMap().get(playa.getName()).setState("Large");
                      playa.sendMessage("You've shrunk");
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+                     SpoutManager.getSoundManager().playCustomSoundEffect(plugin, SpoutManager.getPlayer(playa), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);                      
                   }
                }
                plugin.getGui().update(playa);
@@ -91,7 +92,7 @@ public class MarioEntityListener implements Listener{
    public void onEntityInteract(EntityInteractEvent event){
       if(event.getEntity() instanceof Player){
          Player player = (Player) event.getEntity();
-         player.sendMessage(event.getType().toString());
+         player.sendMessage(event.getEventName());
       }
    }
 }

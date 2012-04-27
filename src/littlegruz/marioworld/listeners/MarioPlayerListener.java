@@ -74,13 +74,13 @@ public class MarioPlayerListener implements Listener{
                      coinGet(mp, sp, 1);
                   } else if(mb.getBlockType().compareToIgnoreCase("poison") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.BROWN_MUSHROOM, 1));
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                   } else if(mb.getBlockType().compareToIgnoreCase("super") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_MUSHROOM, 1));
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                   } else if(mb.getBlockType().compareToIgnoreCase("fire") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_ROSE, 1));
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                   }
                }
                /* Destroys the block hit if it is breakable and if the player is
@@ -93,15 +93,15 @@ public class MarioPlayerListener implements Listener{
                            || block.getType().compareTo(Material.COBBLESTONE) == 0){
                            block.setType(Material.AIR);
                            // File size 25KB
-                           SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_breakblock.wav", true);
+                           SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_breakblock.wav", true);
                      }else
                         // File size 11KB
-                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
                   }
                }
                else{
                   if(plugin.isMarioDamage()){
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
                   }
                }
                plugin.getGui().update(event.getPlayer());
@@ -122,7 +122,7 @@ public class MarioPlayerListener implements Listener{
                event.getPlayer().sendMessage("You've grown!");
                mp.setState("Large");
                // File size 10KB
-               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
             }
          }
       // Effect given when obtaining a poison mushroom
@@ -136,12 +136,12 @@ public class MarioPlayerListener implements Listener{
                event.getPlayer().sendMessage("You've shrunk");
                plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Large");
                // File size 8KB
-               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
             } else{
                event.getPlayer().sendMessage("You've shrunk");
                plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Small");
                // File size 8KB
-               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
             }
          }
          // Effect given when obtaining a 1-up (cake) mushroom
@@ -150,7 +150,7 @@ public class MarioPlayerListener implements Listener{
             event.setCancelled(true);
             mp.setLives(mp.getLives() + 1);
             // File size 38KB
-            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
+            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
          }
          // Effect given when obtaining a coin
          else if(event.getItem().getItemStack().getType().compareTo(Material.GOLD_INGOT) == 0){
@@ -168,27 +168,28 @@ public class MarioPlayerListener implements Listener{
                mp.setState("Fire");
                event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
                // File size 10KB
-               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
             } else{
                event.getPlayer().sendMessage("You've grown!");
                mp.setState("Large");
                // File size 10KB
-               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
             }
          }
          // Effect given when obtaining a star
          else if(event.getItem().getItemStack().getType().compareTo(Material.COOKIE) == 0){
             final MarioPlayer mPlayer = mp;
             // File size 441KB
-            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/starman.wav", true);
-            event.getPlayer().sendMessage("Immortal");
+            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/starman.wav", true);
+            mPlayer.setInvincible(true);
+            event.getPlayer().sendMessage("Star power!");
             
             // Set invincibility to run out when the music stops (14.09s)
             plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 
                public void run() {
                    mPlayer.setInvincible(false);
-                   plugin.getServer().getPlayer(mPlayer.getPlayaName()).sendMessage("Mortal");
+                   plugin.getServer().getPlayer(mPlayer.getPlayaName()).sendMessage("Star power has worn off");
                }
            }, 182L);
             
@@ -201,10 +202,10 @@ public class MarioPlayerListener implements Listener{
       if(mp.getCoins() + amount >= 100){
          mp.setCoins(0);
          mp.setLives(mp.getLives() + 1);
-         SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "http://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
+         SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
       }else{
          mp.setCoins(mp.getCoins() + amount);
-         SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "http://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
+         SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
       }
    }
    
@@ -218,7 +219,7 @@ public class MarioPlayerListener implements Listener{
       }
       
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
-         event.getPlayer().sendMessage("Welcome " + event.getPlayer().getName() + " to a Mario WorldCraft world");
+         event.getPlayer().sendMessage("Welcome " + event.getPlayer().getName() + " to Mario WorldCraft");
       }
    }
 
@@ -243,7 +244,7 @@ public class MarioPlayerListener implements Listener{
          if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){
             event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
             // File size 7KB
-            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_fireball.wav", true);
+            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_fireball.wav", true);
          }
          event.setHatching(false);
       }
