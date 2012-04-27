@@ -142,9 +142,14 @@ public class MarioMain extends JavaPlugin{
       getServer().getPluginManager().registerEvents(new MarioScreenListener(this), this);
       getServer().getPluginManager().registerEvents(new MarioSpoutListener(this), this);
       
+      // Pulling data from config.yml
+      if(getConfig().isBoolean("damage"))
+         marioDamage = getConfig().getBoolean("damage");
+      else
+         marioDamage = false;
+      
       gui = new MarioGUI(this);
-      marioDamage = false;
-      log.info("Mario World v2.2 Enabled");
+      log.info("Mario World v2.3 Enabled");
    }
 
    public void onDisable(){
@@ -207,7 +212,8 @@ public class MarioMain extends JavaPlugin{
          log.info("Error saving Mario worlds");
       }
       
-      log.info("Mario World v2.2 shutdown successfully");
+      saveConfig();
+      log.info("Mario World v2.3 shutdown successfully");
    }
    
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
@@ -266,9 +272,11 @@ public class MarioMain extends JavaPlugin{
             if(player.isOp()){
                if(marioDamage){
                   marioDamage = false;
+                  this.getConfig().set("damage", false);
                   player.sendMessage("Mario damage is now disabled");
                }else{
                   marioDamage = true;
+                  this.getConfig().set("damage", true);
                   player.sendMessage("Mario damage is now enabled");
                }
             }else
