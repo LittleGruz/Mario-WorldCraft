@@ -154,7 +154,7 @@ public class MarioMain extends JavaPlugin{
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
-      log.info("Mario World v2.3 Enabled");
+      log.info("Mario World v2.4 Enabled");
    }
 
    public void onDisable(){
@@ -218,7 +218,7 @@ public class MarioMain extends JavaPlugin{
       }
       
       saveConfig();
-      log.info("Mario World v2.3 shutdown successfully");
+      log.info("Mario World v2.4 shutdown successfully");
    }
    
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
