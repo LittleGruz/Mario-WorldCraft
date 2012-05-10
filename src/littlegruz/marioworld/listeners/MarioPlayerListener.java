@@ -72,20 +72,28 @@ public class MarioPlayerListener implements Listener{
                      // File size 27KB
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     else
+                        event.getPlayer().sendMessage("Power block hit!");
                   } else if(mb.getBlockType().compareToIgnoreCase("coin") == 0){
                      coinGet(mp, sp, 1);
                   } else if(mb.getBlockType().compareToIgnoreCase("poison") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.BROWN_MUSHROOM, 1));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     else
+                        event.getPlayer().sendMessage("A power-up appears!");
                   } else if(mb.getBlockType().compareToIgnoreCase("super") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_MUSHROOM, 1));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     else
+                        event.getPlayer().sendMessage("A power-up appears!");
                   } else if(mb.getBlockType().compareToIgnoreCase("fire") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_ROSE, 1));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     else
+                        event.getPlayer().sendMessage("A power-up appears!");
                   }
                }
                /* Destroys the block hit if it is breakable and if the player is
@@ -100,15 +108,22 @@ public class MarioPlayerListener implements Listener{
                            // File size 25KB
                            if(plugin.isSpoutEnabled())
                               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_breakblock.wav", true);
+                           else
+                              event.getPlayer().sendMessage("*smash*");
                      }else
                         // File size 11KB
                         if(plugin.isSpoutEnabled())
                            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+                        else
+                           event.getPlayer().sendMessage("*bump*");
                   }
                }
                else{
-                  if(plugin.isMarioDamage() && plugin.isSpoutEnabled()){
-                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+                  if(plugin.isMarioDamage()){
+                     if(plugin.isSpoutEnabled())
+                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
+                     else
+                        event.getPlayer().sendMessage("*bump*");
                   }
                }
                if(plugin.isSpoutEnabled())
@@ -223,12 +238,18 @@ public class MarioPlayerListener implements Listener{
             SpoutPlayer sp = SpoutManager.getPlayer(p);
             SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
          }
+         else{
+            p.sendMessage("Lives: " + Integer.toString(mp.getLives()));
+            p.sendMessage("Coins: " + Integer.toString(mp.getCoins()));
+         }
       }else{
          mp.setCoins(mp.getCoins() + amount);
          if(plugin.isSpoutEnabled()){
             SpoutPlayer sp = SpoutManager.getPlayer(p);
             SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
          }
+         else
+            p.sendMessage("Coins: " + Integer.toString(mp.getCoins()));
       }
    }
    
@@ -257,7 +278,8 @@ public class MarioPlayerListener implements Listener{
          }
          event.setRespawnLocation(mp.getCheckpoint());
          //plugin.getGui().removeGameOver(event.getPlayer());
-         plugin.getGui().update(event.getPlayer());
+         if(plugin.isSpoutEnabled())
+            plugin.getGui().update(event.getPlayer());
       }
    }
 
@@ -267,7 +289,10 @@ public class MarioPlayerListener implements Listener{
          if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){
             event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
             // File size 7KB
-            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_fireball.wav", true);
+            if(plugin.isSpoutEnabled())
+               SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_fireball.wav", true);
+            else
+               event.getPlayer().sendMessage("*fwoosh*");
          }
          event.setHatching(false);
       }
