@@ -1,6 +1,6 @@
 name: MarioWorld
 main: littlegruz.marioworld.MarioMain
-version: 2.3
+version: 2.4
 commands:
    mariorestart:
       description: Resets all the Mario item blocks and player stats to their original state
@@ -21,4 +21,4 @@ permissions:
    marioworld.mariorestart:
       description: Resets the Mario blocks
       default: op
-depend: [Spout]
+softdepend: [Spout]

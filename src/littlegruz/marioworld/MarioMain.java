@@ -27,7 +27,6 @@ import littlegruz.marioworld.listeners.MarioPlayerListener;
 import littlegruz.marioworld.listeners.MarioScreenListener;
 import littlegruz.marioworld.listeners.MarioSpoutListener;
 
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -37,7 +36,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
 
 public class MarioMain extends JavaPlugin{
-   Logger log = Logger.getLogger("This is MINECRAFT!");
+   private Logger log = Logger.getLogger("This is MINECRAFT!");
    private HashMap<Location, MarioBlock> blockMap;
    private HashMap<String, MarioPlayer> playerMap;
    private HashMap<String, String> worldMap;
@@ -47,6 +46,7 @@ public class MarioMain extends JavaPlugin{
    private File worldFile;
    private boolean marioDamage;
    private MarioGUI gui;
+   private boolean spoutEnabled;
 
    public void onEnable(){
       // Create the directory and files if needed
@@ -54,6 +54,8 @@ public class MarioMain extends JavaPlugin{
       blockFile = new File(getDataFolder().toString() + "/marioblocks.txt");
       playerFile = new File(getDataFolder().toString() + "/marioplayers.txt");
       worldFile = new File(getDataFolder().toString() + "/marioworlds.txt");
+      
+      spoutEnabled = getServer().getPluginManager().isPluginEnabled("Spout");
       
       log.info("Populating Mario HashMaps...");
       BufferedReader br;
@@ -139,8 +141,10 @@ public class MarioMain extends JavaPlugin{
       getServer().getPluginManager().registerEvents(new MarioPlayerListener(this), this);
       getServer().getPluginManager().registerEvents(new MarioBlockListener(this), this);
       getServer().getPluginManager().registerEvents(new MarioEntityListener(this), this);
-      getServer().getPluginManager().registerEvents(new MarioScreenListener(this), this);
-      getServer().getPluginManager().registerEvents(new MarioSpoutListener(this), this);
+      if(spoutEnabled){
+         getServer().getPluginManager().registerEvents(new MarioScreenListener(this), this);
+         getServer().getPluginManager().registerEvents(new MarioSpoutListener(this), this);
+      }
       
       // Pulling data from config.yml
       if(getConfig().isBoolean("damage"))
@@ -148,7 +152,8 @@ public class MarioMain extends JavaPlugin{
       else
          marioDamage = false;
       
-      gui = new MarioGUI(this);
+      if(spoutEnabled)
+         gui = new MarioGUI(this);
       log.info("Mario World v2.3 Enabled");
    }
 
@@ -293,7 +298,8 @@ public class MarioMain extends JavaPlugin{
                }else{
                   worldMap.put(player.getWorld().getUID().toString(), player.getWorld().getUID().toString());
                   player.sendMessage("World added");
-                  gui.update(player);
+                  if(spoutEnabled)
+                     gui.update(player);
                }
             }else
                player.sendMessage("No! Bad " + player.getName() + "!");
@@ -309,7 +315,8 @@ public class MarioMain extends JavaPlugin{
                }else{
                   worldMap.remove(player.getWorld().getUID().toString());
                   player.sendMessage("World removed");
-                  gui.remove(player);
+                  if(spoutEnabled)
+                     gui.remove(player);
                }
             }else
                player.sendMessage("No! Bad " + player.getName() + "!");
@@ -350,10 +357,12 @@ public class MarioMain extends JavaPlugin{
          //plugin.getGui().placeGameOver(event.getPlayer());
          clearCheckpoint(mp.getPlayaName(), playa.getWorld().getUID());
          // File size 164KB
-         SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_gameover.wav", true);
+         if(spoutEnabled)
+            SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_gameover.wav", true);
       }else
          // File size 118KB
-         SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_mariodie.wav", true);
+         if(spoutEnabled)
+            SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_mariodie.wav", true);
    }
    
    public HashMap<Location, MarioBlock> getBlockMap(){
@@ -382,5 +391,9 @@ public class MarioMain extends JavaPlugin{
 
    public MarioGUI getGui(){
       return gui;
+   }
+
+   public boolean isSpoutEnabled(){
+      return spoutEnabled;
    }
 }
