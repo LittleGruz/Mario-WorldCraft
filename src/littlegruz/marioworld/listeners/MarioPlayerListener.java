@@ -65,17 +65,16 @@ public class MarioPlayerListener implements Listener{
                   mb.setHit(true);
                   block.setType(Material.STONE);
 
-                  SpoutPlayer sp = SpoutManager.getPlayer(event.getPlayer());
                   // Compare against all the types of special blocks
                   if(mb.getBlockType().compareToIgnoreCase("question") == 0){
                      topBlockLoc.getBlock().setType(Material.REDSTONE_TORCH_ON);
                      // File size 27KB
                      if(plugin.isSpoutEnabled())
-                        SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "http://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                      else
                         event.getPlayer().sendMessage("Power block hit!");
                   } else if(mb.getBlockType().compareToIgnoreCase("coin") == 0){
-                     coinGet(mp, sp, 1);
+                     coinGet(mp, event.getPlayer(), 1);
                   } else if(mb.getBlockType().compareToIgnoreCase("poison") == 0){
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.BROWN_MUSHROOM, 1));
                      if(plugin.isSpoutEnabled())
