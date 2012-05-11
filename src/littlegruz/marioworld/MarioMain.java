@@ -154,7 +154,7 @@ public class MarioMain extends JavaPlugin{
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
-      log.info("Mario World v2.4 Enabled");
+      log.info("Mario World v2.4.1 Enabled");
    }
 
    public void onDisable(){
@@ -218,7 +218,7 @@ public class MarioMain extends JavaPlugin{
       }
       
       saveConfig();
-      log.info("Mario World v2.4 shutdown successfully");
+      log.info("Mario World v2.4.1 shutdown successfully");
    }
    
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
@@ -263,7 +263,8 @@ public class MarioMain extends JavaPlugin{
                      }
                   }
                }
-               gui.update(playa);
+               if(spoutEnabled)
+                  gui.update(playa);
                playa.sendMessage("Mario World restarted");
             } else{
                playa.sendMessage("Ha, no.");
