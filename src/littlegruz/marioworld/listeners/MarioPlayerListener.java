@@ -93,6 +93,12 @@ public class MarioPlayerListener implements Listener{
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                      else
                         event.getPlayer().sendMessage("A power-up appears!");
+                  } else if(mb.getBlockType().compareToIgnoreCase("inv") == 0){
+                     topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.COOKIE, 1));
+                     if(plugin.isSpoutEnabled())
+                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     else
+                        event.getPlayer().sendMessage("A power-up appears!");
                   }
                }
                /* Destroys the block hit if it is breakable and if the player is
