@@ -129,7 +129,6 @@ public class MarioPlayerListener implements Listener{
                }
                else{
                   if(plugin.isMarioDamage()){
-                     mb.setHit(false);
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
                      else
@@ -163,21 +162,23 @@ public class MarioPlayerListener implements Listener{
          else if(event.getItem().getItemStack().getType().compareTo(Material.BROWN_MUSHROOM) == 0){
             event.getItem().remove();
             event.setCancelled(true);
-            if(mp.getState().compareToIgnoreCase("Small") == 0){
-               event.getPlayer().damage(1000);
-               plugin.deathSequence(event.getPlayer());
-            } else if(mp.getState().compareToIgnoreCase("Fire") == 0){
-               event.getPlayer().sendMessage("You've shrunk");
-               plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Large");
-               // File size 8KB
-               if(plugin.isSpoutEnabled())
-                  SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
-            } else{
-               event.getPlayer().sendMessage("You've shrunk");
-               plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Small");
-               // File size 8KB
-               if(plugin.isSpoutEnabled())
-                  SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+            if(!mp.isInvincible()){
+               if(mp.getState().compareToIgnoreCase("Small") == 0){
+                  event.getPlayer().damage(1000);
+                  plugin.deathSequence(event.getPlayer());
+               } else if(mp.getState().compareToIgnoreCase("Fire") == 0){
+                  event.getPlayer().sendMessage("You've shrunk");
+                  plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Large");
+                  // File size 8KB
+                  if(plugin.isSpoutEnabled())
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+               } else{
+                  event.getPlayer().sendMessage("You've shrunk");
+                  plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Small");
+                  // File size 8KB
+                  if(plugin.isSpoutEnabled())
+                     SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
+               }
             }
          }
          // Effect given when obtaining a 1-up (cake) mushroom
@@ -290,6 +291,8 @@ public class MarioPlayerListener implements Listener{
          //plugin.getGui().removeGameOver(event.getPlayer());
          if(plugin.isSpoutEnabled())
             plugin.getGui().update(event.getPlayer());
+         else
+            event.getPlayer().sendMessage("Lives left: " + Integer.toString(mp.getLives()));
       }
    }
 

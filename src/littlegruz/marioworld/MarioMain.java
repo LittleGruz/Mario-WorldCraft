@@ -323,7 +323,7 @@ public class MarioMain extends JavaPlugin{
                player.sendMessage("No! Bad " + player.getName() + "!");
             return true;
          }
-      }else if(cmd.getName().compareToIgnoreCase("clearmariocheckpoints") == 0){
+      }else if(cmd.getName().compareToIgnoreCase("clearmariocheckpoint") == 0){
          Player player;
          if(sender instanceof Player){
             player = (Player) sender;
@@ -336,6 +336,12 @@ public class MarioMain extends JavaPlugin{
                      clearCheckpoint(args[0], player.getWorld().getUID()) + " reset");
                return true;
             }
+         }else if(args.length == 1){
+            if(getServer().getPlayer(args[0]) != null){
+            sender.sendMessage("Checkpoint for " + 
+                  clearCheckpoint(args[0], getServer().getPlayer(args[0]).getWorld().getUID()) + " reset");
+            } else
+               sender.sendMessage("No player is online with that name");
          }
       }
       return true;

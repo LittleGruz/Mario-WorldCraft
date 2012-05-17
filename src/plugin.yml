@@ -14,9 +14,9 @@ commands:
    removemarioworld:
       description: Removes the current world from the list of worlds effected by the mod
       usage: /removemarioworld
-   clearmariocheckpoints:
-      description: Resets the checkpoint back to the default spawn
-      usage: /clearmariocheckpoints
+   clearmariocheckpoint:
+      description: Resets the checkpoint of a player back to the default spawn
+      usage: /clearmariocheckpoint
 permissions:
    marioworld.mariorestart:
       description: Resets the Mario blocks

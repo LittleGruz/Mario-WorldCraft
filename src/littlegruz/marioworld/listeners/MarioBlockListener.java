@@ -93,6 +93,15 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage("Special block removed");
             }
+         } else if(event.getItemInHand().getType().compareTo(Material.CACTUS) == 0){
+            if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
+               plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "cp"));
+               event.getPlayer().sendMessage("Checkpoint saved");
+            }
+            else{
+               plugin.getBlockMap().remove(event.getBlock().getLocation());
+               event.getPlayer().sendMessage("Special block removed");
+            }
          }
       }
    }
