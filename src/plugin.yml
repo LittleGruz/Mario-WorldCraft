@@ -17,6 +17,9 @@ commands:
    clearmariocheckpoint:
       description: Resets the checkpoint of a player back to the default spawn
       usage: /clearmariocheckpoint
+   changelanguage:
+      description: Changes the language of displayed messages
+      usage: /changelanguage
 permissions:
    marioworld.mariorestart:
       description: Resets the Mario blocks

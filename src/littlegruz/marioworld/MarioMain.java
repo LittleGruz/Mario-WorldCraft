@@ -12,7 +12,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -45,6 +47,9 @@ public class MarioMain extends JavaPlugin{
    private File playerFile;
    private File worldFile;
    private MarioGUI gui;
+   private ResourceBundle currentRB;
+   private Locale spanishLocale;
+   private Locale aussieLocale;
    private boolean marioDamage;
    private boolean spoutEnabled;
    private int defaultLives;
@@ -150,6 +155,9 @@ public class MarioMain extends JavaPlugin{
          getServer().getPluginManager().registerEvents(new MarioScreenListener(this), this);
          getServer().getPluginManager().registerEvents(new MarioSpoutListener(this), this);
       }
+
+      spanishLocale = new Locale("spa", "ES");
+      aussieLocale = new Locale("aus", "AU");
       
       // Pulling data from config.yml
       if(getConfig().isBoolean("damage"))
@@ -160,6 +168,16 @@ public class MarioMain extends JavaPlugin{
          defaultLives = getConfig().getInt("lives");
       else
          defaultLives = 3;
+      if(getConfig().isString("language")){
+         if(getConfig().getString("language").compareTo("english") == 0)
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", Locale.ENGLISH);
+         else if(getConfig().getString("language").compareTo("spanish") == 0)
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", spanishLocale);
+         else if(getConfig().getString("language").compareTo("aussie") == 0)
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", aussieLocale);
+      }
+      else
+         currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", Locale.ENGLISH);
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
@@ -351,7 +369,17 @@ public class MarioMain extends JavaPlugin{
             sender.sendMessage("Checkpoint for " + 
                   clearCheckpoint(args[0], getServer().getPlayer(args[0]).getWorld().getUID()) + " reset");
             } else
-               sender.sendMessage("No player is online with that name");
+               sender.sendMessage(currentRB.getString("NoneOnline"));
+         }
+      }else if(cmd.getName().compareToIgnoreCase("changelanguage") == 0){
+         if(args.length == 1){
+            if(args[0].compareTo("english") == 0)
+               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", Locale.ENGLISH);
+            else if(args[0].compareTo("spanish") == 0)
+               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", spanishLocale);
+            else if(args[0].compareTo("aussie") == 0)
+               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", aussieLocale);
+            return true;
          }
       }
       return true;
@@ -416,5 +444,13 @@ public class MarioMain extends JavaPlugin{
    
    public int getDefaultLives(){
       return defaultLives;
+   }
+   
+   public void setCurrentRB(ResourceBundle bundle) {
+      currentRB = bundle;
+   }
+
+    public ResourceBundle getCurrentRB() {
+      return currentRB;
    }
 }
