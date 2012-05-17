@@ -44,9 +44,10 @@ public class MarioMain extends JavaPlugin{
    private File blockFile;
    private File playerFile;
    private File worldFile;
-   private boolean marioDamage;
    private MarioGUI gui;
+   private boolean marioDamage;
    private boolean spoutEnabled;
+   private int defaultLives;
 
    public void onEnable(){
       // Create the directory and files if needed
@@ -155,10 +156,14 @@ public class MarioMain extends JavaPlugin{
          marioDamage = getConfig().getBoolean("damage");
       else
          marioDamage = false;
+      if(getConfig().isInt("lives"))
+         defaultLives = getConfig().getInt("lives");
+      else
+         defaultLives = 3;
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
-      log.info("Mario World v2.5 Enabled");
+      log.info("Mario World v3.0 Enabled");
    }
 
    public void onDisable(){
@@ -221,8 +226,9 @@ public class MarioMain extends JavaPlugin{
          log.info("Error saving Mario worlds");
       }
       
+      this.getConfig().set("lives", defaultLives);
       saveConfig();
-      log.info("Mario World v2.5 shutdown successfully");
+      log.info("Mario World v3.0 shutdown successfully");
    }
    
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
@@ -406,5 +412,9 @@ public class MarioMain extends JavaPlugin{
 
    public boolean isSpoutEnabled(){
       return spoutEnabled;
+   }
+   
+   public int getDefaultLives(){
+      return defaultLives;
    }
 }

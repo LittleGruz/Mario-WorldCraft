@@ -115,7 +115,7 @@ public class MarioBlockListener implements Listener{
                   }
                }
                /* This part will only be reached if no custom respawn points are
-                * set */
+                * found */
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "respawn"));
                event.getPlayer().getWorld().setSpawnLocation(event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ());
                event.getPlayer().sendMessage("Respawn block saved");
