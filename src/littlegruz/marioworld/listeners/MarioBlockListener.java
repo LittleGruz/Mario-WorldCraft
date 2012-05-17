@@ -24,9 +24,9 @@ public class MarioBlockListener implements Listener{
            plugin = instance;
    }
 
+   // Adding special Mario blocks
    @EventHandler
    public void onBlockDamage(BlockDamageEvent event){
-      // Add a block as a MarioBlock if hit by an op with a redstone torch
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
          if(!event.getPlayer().isOp() || event.getInstaBreak())
             return;
@@ -94,18 +94,37 @@ public class MarioBlockListener implements Listener{
                event.getPlayer().sendMessage("Special block removed");
             }
          } else if(event.getItemInHand().getType().compareTo(Material.CACTUS) == 0){
-            if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
-               plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "cp"));
-               event.getPlayer().sendMessage("Checkpoint saved");
-            }
-            else{
-               plugin.getBlockMap().remove(event.getBlock().getLocation());
-               event.getPlayer().sendMessage("Special block removed");
+            if(event.getBlock().getType().compareTo(Material.STONE_PLATE) == 0){
+               if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
+                  plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "cp"));
+                  event.getPlayer().sendMessage("Checkpoint saved");
+               }
+               else{
+                  plugin.getBlockMap().remove(event.getBlock().getLocation());
+                  event.getPlayer().sendMessage("Special block removed");
+               }
+            } else{
+               // Set or remove the default respawn place
+               Iterator<Map.Entry<Location, MarioBlock>> it = plugin.getBlockMap().entrySet().iterator();
+               while(it.hasNext()){
+                  Entry<Location, MarioBlock> mb = it.next();
+                  if(mb.getValue().getBlockType().compareTo("respawn") == 0){
+                     plugin.getBlockMap().remove(mb.getKey());
+                     event.getPlayer().sendMessage("Respawn block removed");
+                     return;
+                  }
+               }
+               /* This part will only be reached if no custom respawn points are
+                * set */
+               plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "respawn"));
+               event.getPlayer().getWorld().setSpawnLocation(event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ());
+               event.getPlayer().sendMessage("Respawn block saved");
             }
          }
       }
    }
 
+   // The checkpoint plate trigger
    @EventHandler
    public void onBlockPhysics(BlockPhysicsEvent event){
       if(plugin.getWorldMap().containsKey(event.getBlock().getWorld().getUID().toString())

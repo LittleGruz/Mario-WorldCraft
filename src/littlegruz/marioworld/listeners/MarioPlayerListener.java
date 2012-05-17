@@ -286,6 +286,7 @@ public class MarioPlayerListener implements Listener{
          mp.setState("Small");
          if(mp.getLives() <= 0){
             mp.setLives(3);
+            mp.setCheckpoint(event.getPlayer().getWorld().getSpawnLocation());
          }
          event.setRespawnLocation(mp.getCheckpoint());
          //plugin.getGui().removeGameOver(event.getPlayer());

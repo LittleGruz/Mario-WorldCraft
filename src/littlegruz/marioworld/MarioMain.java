@@ -76,6 +76,10 @@ public class MarioMain extends JavaPlugin{
             if(Integer.parseInt(st.nextToken()) == 1)
                mb.setHit(true);
             blockMap.put(loc, mb);
+            if(mb.getBlockType().compareTo("respawn") == 0){
+               loc.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+               log.info("Custom respawn found");
+            }
          }
          br.close();
          
