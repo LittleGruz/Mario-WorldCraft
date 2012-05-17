@@ -48,7 +48,7 @@ public class MarioPlayerListener implements Listener{
             blockLoc.setY(blockLoc.getY() + 1);
             block = blockLoc.getBlock();
             topBlockLoc = blockLoc;
-            topBlockLoc.setY(blockLoc.getY() + 1);
+            topBlockLoc.setY(blockLoc.getY() - 1);
             
             MarioPlayer mp = plugin.getPlayerMap().get(event.getPlayer().getName());
             if(block.getType().compareTo(Material.AIR) != 0
@@ -67,6 +67,7 @@ public class MarioPlayerListener implements Listener{
 
                   // Compare against all the types of special blocks
                   if(mb.getBlockType().compareToIgnoreCase("question") == 0){
+                     topBlockLoc.setY(blockLoc.getY() + 2);
                      topBlockLoc.getBlock().setType(Material.REDSTONE_TORCH_ON);
                      // File size 27KB
                      if(plugin.isSpoutEnabled())
