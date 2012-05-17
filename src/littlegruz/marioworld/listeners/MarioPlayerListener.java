@@ -63,10 +63,10 @@ public class MarioPlayerListener implements Listener{
                MarioBlock mb = plugin.getBlockMap().get(block.getLocation());
                if(mb != null && !mb.isHit()){
                   mb.setHit(true);
-                  block.setType(Material.STONE);
 
                   // Compare against all the types of special blocks
                   if(mb.getBlockType().compareToIgnoreCase("question") == 0){
+                     block.setType(Material.STONE);
                      topBlockLoc.setY(blockLoc.getY() + 2);
                      topBlockLoc.getBlock().setType(Material.REDSTONE_TORCH_ON);
                      // File size 27KB
@@ -75,57 +75,61 @@ public class MarioPlayerListener implements Listener{
                      else
                         event.getPlayer().sendMessage("Power block hit!");
                   } else if(mb.getBlockType().compareToIgnoreCase("coin") == 0){
+                     block.setType(Material.STONE);
                      coinGet(mp, event.getPlayer(), 1);
                   } else if(mb.getBlockType().compareToIgnoreCase("poison") == 0){
+                     block.setType(Material.STONE);
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.BROWN_MUSHROOM, 1));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                      else
                         event.getPlayer().sendMessage("A power-up appears!");
                   } else if(mb.getBlockType().compareToIgnoreCase("super") == 0){
+                     block.setType(Material.STONE);
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_MUSHROOM, 1));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                      else
                         event.getPlayer().sendMessage("A power-up appears!");
                   } else if(mb.getBlockType().compareToIgnoreCase("fire") == 0){
+                     block.setType(Material.STONE);
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.RED_ROSE, 1));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                      else
                         event.getPlayer().sendMessage("A power-up appears!");
                   } else if(mb.getBlockType().compareToIgnoreCase("inv") == 0){
+                     block.setType(Material.STONE);
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.COOKIE, 1));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                      else
                         event.getPlayer().sendMessage("A power-up appears!");
-                  }
-               }
-               /* Destroys the block hit if it is breakable and if the player is
-                * in their big form*/
-               else if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Large") == 0
+                  /* Destroys the block hit if it is breakable and if the player is
+                   * in a big form*/
+                  } else if(mb.getBlockType().compareToIgnoreCase("break") == 0){
+                     if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Large") == 0
                      || plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){
-                  // TODO Perhaps put in a feature which allows the creation of breakable blocks?
-                  if(plugin.isMarioDamage()){
-                     if(block.getType().compareTo(Material.BRICK) == 0
-                           || block.getType().compareTo(Material.COBBLESTONE) == 0){
-                           block.setType(Material.AIR);
-                           // File size 25KB
-                           if(plugin.isSpoutEnabled())
-                              SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_breakblock.wav", true);
-                           else
-                              event.getPlayer().sendMessage("*smash*");
-                     }else
+                        block.setType(Material.AIR);
+                        // File size 25KB
+                        if(plugin.isSpoutEnabled())
+                           SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_breakblock.wav", true);
+                        else
+                           event.getPlayer().sendMessage("*smash*");
+                     }
+                     else{
+                        mb.setHit(false);
                         // File size 11KB
                         if(plugin.isSpoutEnabled())
                            SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
                         else
                            event.getPlayer().sendMessage("*bump*");
+                     }
                   }
                }
                else{
                   if(plugin.isMarioDamage()){
+                     mb.setHit(false);
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_bump.wav", true);
                      else

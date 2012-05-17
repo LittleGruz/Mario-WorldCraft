@@ -84,6 +84,15 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage("Special block removed");
             }
+         } else if(event.getItemInHand().getType().compareTo(Material.BRICK) == 0){
+            if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
+               plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "break"));
+               event.getPlayer().sendMessage("Breakable block saved");
+            }
+            else{
+               plugin.getBlockMap().remove(event.getBlock().getLocation());
+               event.getPlayer().sendMessage("Special block removed");
+            }
          }
       }
    }
