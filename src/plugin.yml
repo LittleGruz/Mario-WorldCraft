@@ -20,8 +20,11 @@ commands:
    changelanguage:
       description: Changes the language of displayed messages
       usage: /changelanguage
+   marioscore:
+      description: Displays a player's score
+      usage: /marioscore <player_name>
 permissions:
-   marioworld.mariorestart:
-      description: Resets the Mario blocks
+   marioworld.admincommands:
+      description: Any of the administration commands
       default: op
 softdepend: [Spout]

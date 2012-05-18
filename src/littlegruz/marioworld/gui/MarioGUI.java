@@ -21,13 +21,13 @@ public class MarioGUI{
    
    public MarioGUI(MarioMain instance){
       this.plugin = instance;
-      lifeLabel = new GenericLabel("Lives");
-      coinLabel = new GenericLabel("Coins");
-      stateLabel = new GenericLabel("State");
+      lifeLabel = new GenericLabel(plugin.getCurrentRB().getString("Lives"));
+      coinLabel = new GenericLabel(plugin.getCurrentRB().getString("Coins"));
+      stateLabel = new GenericLabel(plugin.getCurrentRB().getString("State"));
       lives = new GenericLabel();
       coins = new GenericLabel();
       state = new GenericLabel();
-      gameover = new GenericLabel("Game Over");
+      gameover = new GenericLabel(plugin.getCurrentRB().getString("GameOver"));
       
       //Note: Max screen widget X value is about 430 and a row is a Y value of 10
       coinLabel.setX(87);
@@ -67,6 +67,10 @@ public class MarioGUI{
    public void update(Player player){
       SpoutPlayer sp = SpoutManager.getPlayer(player);
       MarioPlayer mp = plugin.getPlayerMap().get(player.getName());
+      lifeLabel.setText(plugin.getCurrentRB().getString("Lives"));
+      coinLabel.setText(plugin.getCurrentRB().getString("Coins"));
+      stateLabel.setText(plugin.getCurrentRB().getString("State"));
+      gameover.setText(plugin.getCurrentRB().getString("GameOver"));
       sp.getMainScreen().attachWidget(plugin, lifeLabel);
       sp.getMainScreen().attachWidget(plugin, coinLabel);
       sp.getMainScreen().attachWidget(plugin, stateLabel);

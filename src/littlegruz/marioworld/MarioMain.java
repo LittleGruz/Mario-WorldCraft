@@ -1,6 +1,10 @@
 package littlegruz.marioworld;
 /* IMPORTANT: The Mario sound clips are not of my own creation, they are
- * instead made by the lovely folks at http://themushroomkingdom.net/*/
+ * instead made by the lovely folks at http://themushroomkingdom.net/ */
+
+/* I would like to thank WingedSpear from the Bukkit forums for some very
+ * valuable feedback, suggestions as well as providing the translations to
+ * Spanish. */
 
 
 import java.io.BufferedReader;
@@ -20,6 +24,10 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import littlegruz.marioworld.commands.CheckpointStuff;
+import littlegruz.marioworld.commands.GameplayStuff;
+import littlegruz.marioworld.commands.LanguageStuff;
+import littlegruz.marioworld.commands.WorldStuff;
 import littlegruz.marioworld.entities.MarioBlock;
 import littlegruz.marioworld.entities.MarioPlayer;
 import littlegruz.marioworld.gui.MarioGUI;
@@ -31,8 +39,6 @@ import littlegruz.marioworld.listeners.MarioSpoutListener;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.SpoutManager;
@@ -156,6 +162,15 @@ public class MarioMain extends JavaPlugin{
          getServer().getPluginManager().registerEvents(new MarioSpoutListener(this), this);
       }
 
+      //Set up listeners
+      getCommand("clearmariocheckpoint").setExecutor(new CheckpointStuff(this));
+      getCommand("mariorestart").setExecutor(new GameplayStuff(this));
+      getCommand("mariodamage").setExecutor(new GameplayStuff(this));
+      getCommand("marioscore").setExecutor(new GameplayStuff(this));
+      getCommand("changelanguage").setExecutor(new LanguageStuff(this));
+      getCommand("addmarioworld").setExecutor(new WorldStuff(this));
+      getCommand("removemarioworld").setExecutor(new WorldStuff(this));
+
       spanishLocale = new Locale("spa", "ES");
       aussieLocale = new Locale("aus", "AU");
       
@@ -249,142 +264,6 @@ public class MarioMain extends JavaPlugin{
       log.info("Mario World v3.0 shutdown successfully");
    }
    
-   public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-      if(cmd.getName().compareToIgnoreCase("mariorestart") == 0){
-         Location loc;
-         if(sender instanceof Player){
-            Player playa = (Player) sender;
-            if(playa.isOp()){
-               // Change the MarioBlocks back to their initial state
-               Iterator<Map.Entry<Location, MarioBlock>> it = blockMap.entrySet().iterator();
-               while(it.hasNext()){
-                  Entry<Location, MarioBlock> mb = it.next();
-                  if(mb.getValue().isHit()){
-                     loc = mb.getValue().getLocation().clone();
-                     loc.getBlock().setType(mb.getValue().getType());
-                     loc.setY(loc.getY() + 1);
-                     loc.getBlock().setType(Material.AIR);
-                     mb.getValue().setHit(false);
-                  }
-               }
-               // Reset the players stats to the default
-               Iterator<Map.Entry<String, MarioPlayer>> itPlayer = playerMap.entrySet().iterator();
-               while(itPlayer.hasNext()){
-                  Entry<String, MarioPlayer> mp = itPlayer.next();
-                  /* If the UUID isn't valid, then replace it with the world
-                   * the current player is in*/
-                  try{
-                     mp.getValue().getCheckpoint().getWorld().getUID().equals(playa.getWorld().getUID());
-                  }catch(Exception e){
-                     getServer().broadcastMessage(currentRB.getString("BadCheckpoint"));
-                     mp.getValue().getCheckpoint().setWorld(playa.getWorld());
-                  }
-                  if(mp.getValue().getCheckpoint().getWorld().getUID().equals(playa.getWorld().getUID())){
-                     clearCheckpoint(mp.getValue().getPlayaName(), playa.getWorld().getUID());
-                     mp.getValue().setCoins(0);
-                     mp.getValue().setLives(defaultLives);
-                     mp.getValue().setState(currentRB.getString("Small"));
-                     
-                     Player player = getServer().getPlayer(mp.getValue().getPlayaName());
-                     if(player != null && player.getItemInHand().getType().compareTo(Material.EGG) == 0){
-                        getServer().getPlayer(mp.getValue().getPlayaName()).setItemInHand(null);
-                     }
-                  }
-               }
-               if(spoutEnabled)
-                  gui.update(playa);
-               playa.sendMessage(currentRB.getString("MWRestart"));
-            } else{
-               playa.sendMessage(currentRB.getString("PermissionDeny"));
-            }
-         }
-      }
-      else if(cmd.getName().compareToIgnoreCase("mariodamage") == 0){
-         Player player;
-         if(sender instanceof Player){
-            player = (Player) sender;
-            if(player.isOp()){
-               if(marioDamage){
-                  marioDamage = false;
-                  this.getConfig().set("damage", false);
-                  player.sendMessage(currentRB.getString("MWDamageDisabled"));
-               }else{
-                  marioDamage = true;
-                  this.getConfig().set("damage", true);
-                  player.sendMessage(currentRB.getString("MWDamageEnabled"));
-               }
-            }else
-               player.sendMessage(currentRB.getString("PermissionDeny"));
-            return true;
-         }
-      }else if(cmd.getName().compareToIgnoreCase("addmarioworld") == 0){
-         Player player;
-         if(sender instanceof Player){
-            player = (Player) sender;
-            if(player.isOp()){
-               if(worldMap.get(player.getWorld().getUID().toString()) != null){
-                  player.sendMessage(currentRB.getString("WorldIsAdded"));
-               }else{
-                  worldMap.put(player.getWorld().getUID().toString(), player.getWorld().getUID().toString());
-                  player.sendMessage(currentRB.getString("WorldAdded"));
-                  if(spoutEnabled)
-                     gui.update(player);
-               }
-            }else
-               player.sendMessage(currentRB.getString("PermissionDeny"));
-            return true;
-         }
-      }else if(cmd.getName().compareToIgnoreCase("removemarioworld") == 0){
-         Player player;
-         if(sender instanceof Player){
-            player = (Player) sender;
-            if(player.isOp()){
-               if(worldMap.get(player.getWorld().getUID().toString()) == null){
-                  player.sendMessage(currentRB.getString("WorldNotAdded"));
-               }else{
-                  worldMap.remove(player.getWorld().getUID().toString());
-                  player.sendMessage(currentRB.getString("WorldRemoved"));
-                  if(spoutEnabled)
-                     gui.remove(player);
-               }
-            }else
-               player.sendMessage(currentRB.getString("PermissionDeny"));
-            return true;
-         }
-      }else if(cmd.getName().compareToIgnoreCase("clearmariocheckpoint") == 0){
-         Player player;
-         if(sender instanceof Player){
-            player = (Player) sender;
-            if(args.length == 0){
-               clearCheckpoint(player.getName(), player.getWorld().getUID());
-               player.sendMessage(currentRB.getString("CheckpointReset"));
-               return true;
-            }else if(player.isOp()){
-               player.sendMessage(currentRB.getString("PlayerCheckpointResetP1") + 
-                     clearCheckpoint(args[0], player.getWorld().getUID()));
-               return true;
-            }
-         }else if(args.length == 1){
-            if(getServer().getPlayer(args[0]) != null){
-            sender.sendMessage(currentRB.getString("PlayerCheckpointResetP1") + 
-                  clearCheckpoint(args[0], getServer().getPlayer(args[0]).getWorld().getUID()));
-            } else
-               sender.sendMessage(currentRB.getString("NoneOnline"));
-         }
-      }else if(cmd.getName().compareToIgnoreCase("changelanguage") == 0){
-         if(args.length == 1){
-            if(args[0].compareTo("english") == 0)
-               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
-            else if(args[0].compareTo("spanish") == 0)
-               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", spanishLocale);
-            else if(args[0].compareTo("aussie") == 0)
-               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", aussieLocale);
-            return true;
-         }
-      }
-      return true;
-   }
-   
    public String clearCheckpoint(String name, UUID uid){
       if(playerMap.get(name) != null){
          playerMap.get(name).setCheckpoint(getServer().getWorld(uid).getSpawnLocation());
@@ -452,5 +331,13 @@ public class MarioMain extends JavaPlugin{
 
     public ResourceBundle getCurrentRB() {
       return currentRB;
+   }
+
+   public Locale getSpanishLocale(){
+      return spanishLocale;
+   }
+
+   public Locale getAussieLocale(){
+      return aussieLocale;
    }
 }

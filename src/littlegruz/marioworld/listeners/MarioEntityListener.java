@@ -47,7 +47,7 @@ public class MarioEntityListener implements Listener{
                      || entityName.compareToIgnoreCase("arrow") == 0){
                   if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Large") == 0){
                      plugin.getPlayerMap().get(playa.getName()).setState("Small");
-                     playa.sendMessage("You've shrunk");
+                     playa.sendMessage(plugin.getCurrentRB().getString("Shrink"));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomSoundEffect(plugin, SpoutManager.getPlayer(playa), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
                   }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Small") == 0){
@@ -55,7 +55,7 @@ public class MarioEntityListener implements Listener{
                      playa.damage(1000);
                   }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Fire") == 0){
                      plugin.getPlayerMap().get(playa.getName()).setState("Large");
-                     playa.sendMessage("You've shrunk");
+                     playa.sendMessage(plugin.getCurrentRB().getString("Shrink"));
                      if(plugin.isSpoutEnabled())
                         SpoutManager.getSoundManager().playCustomSoundEffect(plugin, SpoutManager.getPlayer(playa), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);                      
                   }

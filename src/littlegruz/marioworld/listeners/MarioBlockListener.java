@@ -116,8 +116,10 @@ public class MarioBlockListener implements Listener{
                }
                /* This part will only be reached if no custom respawn points are
                 * found */
-               plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "respawn"));
-               event.getPlayer().getWorld().setSpawnLocation(event.getBlock().getX(), event.getBlock().getY(), event.getBlock().getZ());
+               Location loc = event.getBlock().getLocation();
+               loc.setY(loc.getY() + 1);
+               plugin.getBlockMap().put(loc, new MarioBlock(loc, "respawn"));
+               event.getPlayer().getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("RBlockSaved"));
             }
          }
@@ -142,6 +144,7 @@ public class MarioBlockListener implements Listener{
                      && loc.getBlockZ() >= playerLoc.getBlockZ() - 1 && loc.getBlockZ() <= playerLoc.getBlockZ() + 2
                      && !mp.getValue().getCheckpoint().equals(loc)){
                   plugin.getServer().getPlayer(mp.getValue().getPlayaName()).sendMessage(plugin.getCurrentRB().getString("CPSet"));
+                  loc.setY(loc.getY() - 1);
                   mp.getValue().setCheckpoint(loc);
                }
             }
