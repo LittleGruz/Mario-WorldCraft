@@ -74,7 +74,7 @@ public class MarioGUI{
       sp.getMainScreen().attachWidget(plugin, lifeLabel);
       sp.getMainScreen().attachWidget(plugin, coinLabel);
       sp.getMainScreen().attachWidget(plugin, stateLabel);
-      state.setText(mp.getState());
+      state.setText(plugin.getCurrentRB().getString(mp.getState()));
       lives.setText(Integer.toString(mp.getLives()));
       coins.setText(Integer.toString(mp.getCoins()));
       sp.getMainScreen().attachWidget(plugin, lives);

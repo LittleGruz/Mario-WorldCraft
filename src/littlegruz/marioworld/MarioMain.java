@@ -196,7 +196,7 @@ public class MarioMain extends JavaPlugin{
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
-      log.info("Mario World v3.0 Enabled");
+      log.info("Mario World v4.0 Enabled");
    }
 
    public void onDisable(){
@@ -261,7 +261,7 @@ public class MarioMain extends JavaPlugin{
       
       this.getConfig().set("lives", defaultLives);
       saveConfig();
-      log.info("Mario World v3.0 shutdown successfully");
+      log.info("Mario World v4.0 shutdown successfully");
    }
    
    public String clearCheckpoint(String name, UUID uid){

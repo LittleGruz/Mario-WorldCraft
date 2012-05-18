@@ -1,6 +1,6 @@
 name: MarioWorld
 main: littlegruz.marioworld.MarioMain
-version: 3.0
+version: 4.0
 commands:
    mariorestart:
       description: Resets all the Mario item blocks and player stats to their original state
