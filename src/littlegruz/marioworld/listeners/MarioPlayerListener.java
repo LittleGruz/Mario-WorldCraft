@@ -201,7 +201,7 @@ public class MarioPlayerListener implements Listener{
             event.getItem().remove();
             event.setCancelled(true);
             if(mp.getState().compareToIgnoreCase("Large") == 0){
-               event.getPlayer().sendMessage("Fire powah!");
+               event.getPlayer().sendMessage("Fireballs!");
                mp.setState("Fire");
                event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
                // File size 10KB
@@ -274,7 +274,8 @@ public class MarioPlayerListener implements Listener{
       }
       
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
-         event.getPlayer().sendMessage("Welcome " + event.getPlayer().getName() + " to Mario WorldCraft");
+         event.getPlayer().sendMessage(plugin.getCurrentRB().getString("WelcomeP1")
+               + event.getPlayer().getName() + ", " + plugin.getCurrentRB().getString("WelcomeP2"));
       }
    }
 

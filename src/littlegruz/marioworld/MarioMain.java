@@ -170,14 +170,14 @@ public class MarioMain extends JavaPlugin{
          defaultLives = 3;
       if(getConfig().isString("language")){
          if(getConfig().getString("language").compareTo("english") == 0)
-            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", Locale.ENGLISH);
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
          else if(getConfig().getString("language").compareTo("spanish") == 0)
-            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", spanishLocale);
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", spanishLocale);
          else if(getConfig().getString("language").compareTo("aussie") == 0)
-            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", aussieLocale);
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", aussieLocale);
       }
       else
-         currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", Locale.ENGLISH);
+         currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
@@ -276,14 +276,14 @@ public class MarioMain extends JavaPlugin{
                   try{
                      mp.getValue().getCheckpoint().getWorld().getUID().equals(playa.getWorld().getUID());
                   }catch(Exception e){
-                     getServer().broadcastMessage("Bad checkpoint location");
+                     getServer().broadcastMessage(currentRB.getString("BadCheckpoint"));
                      mp.getValue().getCheckpoint().setWorld(playa.getWorld());
                   }
                   if(mp.getValue().getCheckpoint().getWorld().getUID().equals(playa.getWorld().getUID())){
                      clearCheckpoint(mp.getValue().getPlayaName(), playa.getWorld().getUID());
                      mp.getValue().setCoins(0);
-                     mp.getValue().setLives(3);
-                     mp.getValue().setState("Small");
+                     mp.getValue().setLives(defaultLives);
+                     mp.getValue().setState(currentRB.getString("Small"));
                      
                      Player player = getServer().getPlayer(mp.getValue().getPlayaName());
                      if(player != null && player.getItemInHand().getType().compareTo(Material.EGG) == 0){
@@ -293,9 +293,9 @@ public class MarioMain extends JavaPlugin{
                }
                if(spoutEnabled)
                   gui.update(playa);
-               playa.sendMessage("Mario World restarted");
+               playa.sendMessage(currentRB.getString("MWRestart"));
             } else{
-               playa.sendMessage("Ha, no.");
+               playa.sendMessage(currentRB.getString("PermissionDeny"));
             }
          }
       }
@@ -307,14 +307,14 @@ public class MarioMain extends JavaPlugin{
                if(marioDamage){
                   marioDamage = false;
                   this.getConfig().set("damage", false);
-                  player.sendMessage("Mario damage is now disabled");
+                  player.sendMessage(currentRB.getString("MWDamageDisabled"));
                }else{
                   marioDamage = true;
                   this.getConfig().set("damage", true);
-                  player.sendMessage("Mario damage is now enabled");
+                  player.sendMessage(currentRB.getString("MWDamageEnabled"));
                }
             }else
-               player.sendMessage("Ha, no.");
+               player.sendMessage(currentRB.getString("PermissionDeny"));
             return true;
          }
       }else if(cmd.getName().compareToIgnoreCase("addmarioworld") == 0){
@@ -323,15 +323,15 @@ public class MarioMain extends JavaPlugin{
             player = (Player) sender;
             if(player.isOp()){
                if(worldMap.get(player.getWorld().getUID().toString()) != null){
-                  player.sendMessage("This world is already added");
+                  player.sendMessage(currentRB.getString("WorldIsAdded"));
                }else{
                   worldMap.put(player.getWorld().getUID().toString(), player.getWorld().getUID().toString());
-                  player.sendMessage("World added");
+                  player.sendMessage(currentRB.getString("WorldAdded"));
                   if(spoutEnabled)
                      gui.update(player);
                }
             }else
-               player.sendMessage("No! Bad " + player.getName() + "!");
+               player.sendMessage(currentRB.getString("PermissionDeny"));
             return true;
          }
       }else if(cmd.getName().compareToIgnoreCase("removemarioworld") == 0){
@@ -340,15 +340,15 @@ public class MarioMain extends JavaPlugin{
             player = (Player) sender;
             if(player.isOp()){
                if(worldMap.get(player.getWorld().getUID().toString()) == null){
-                  player.sendMessage("This world hasn't been added yet");
+                  player.sendMessage(currentRB.getString("WorldNotAdded"));
                }else{
                   worldMap.remove(player.getWorld().getUID().toString());
-                  player.sendMessage("World removed");
+                  player.sendMessage(currentRB.getString("WorldRemoved"));
                   if(spoutEnabled)
                      gui.remove(player);
                }
             }else
-               player.sendMessage("No! Bad " + player.getName() + "!");
+               player.sendMessage(currentRB.getString("PermissionDeny"));
             return true;
          }
       }else if(cmd.getName().compareToIgnoreCase("clearmariocheckpoint") == 0){
@@ -357,28 +357,28 @@ public class MarioMain extends JavaPlugin{
             player = (Player) sender;
             if(args.length == 0){
                clearCheckpoint(player.getName(), player.getWorld().getUID());
-               player.sendMessage("Checkpoint reset");
+               player.sendMessage(currentRB.getString("CheckpointReset"));
                return true;
             }else if(player.isOp()){
-               player.sendMessage("Checkpoint for " + 
-                     clearCheckpoint(args[0], player.getWorld().getUID()) + " reset");
+               player.sendMessage(currentRB.getString("PlayerCheckpointResetP1") + 
+                     clearCheckpoint(args[0], player.getWorld().getUID()));
                return true;
             }
          }else if(args.length == 1){
             if(getServer().getPlayer(args[0]) != null){
-            sender.sendMessage("Checkpoint for " + 
-                  clearCheckpoint(args[0], getServer().getPlayer(args[0]).getWorld().getUID()) + " reset");
+            sender.sendMessage(currentRB.getString("PlayerCheckpointResetP1") + 
+                  clearCheckpoint(args[0], getServer().getPlayer(args[0]).getWorld().getUID()));
             } else
                sender.sendMessage(currentRB.getString("NoneOnline"));
          }
       }else if(cmd.getName().compareToIgnoreCase("changelanguage") == 0){
          if(args.length == 1){
             if(args[0].compareTo("english") == 0)
-               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", Locale.ENGLISH);
+               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
             else if(args[0].compareTo("spanish") == 0)
-               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", spanishLocale);
+               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", spanishLocale);
             else if(args[0].compareTo("aussie") == 0)
-               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages", aussieLocale);
+               currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", aussieLocale);
             return true;
          }
       }
@@ -388,9 +388,9 @@ public class MarioMain extends JavaPlugin{
    public String clearCheckpoint(String name, UUID uid){
       if(playerMap.get(name) != null){
          playerMap.get(name).setCheckpoint(getServer().getWorld(uid).getSpawnLocation());
-         return name;
+         return name + " " + currentRB.getString("PlayerCheckpointResetP2");
       } else
-         return name + " not";
+         return name + " " + currentRB.getString("PlayerCheckpointNotResetP2");
    }
    
    public void deathSequence(Player playa){
