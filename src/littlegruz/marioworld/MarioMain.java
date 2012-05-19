@@ -56,6 +56,7 @@ public class MarioMain extends JavaPlugin{
    private ResourceBundle currentRB;
    private Locale spanishLocale;
    private Locale aussieLocale;
+   private Locale romanianLocale;
    private boolean marioDamage;
    private boolean spoutEnabled;
    private int defaultLives;
@@ -173,6 +174,7 @@ public class MarioMain extends JavaPlugin{
 
       spanishLocale = new Locale("spa", "ES");
       aussieLocale = new Locale("aus", "AU");
+      romanianLocale = new Locale("ro", "ROU");
       
       // Pulling data from config.yml
       if(getConfig().isBoolean("damage"))
@@ -190,13 +192,15 @@ public class MarioMain extends JavaPlugin{
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", spanishLocale);
          else if(getConfig().getString("language").compareTo("aussie") == 0)
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", aussieLocale);
+         else if(getConfig().getString("language").compareTo("romanian") == 0)
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", romanianLocale);
       }
       else
          currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
-      log.info("Mario World v4.0 Enabled");
+      log.info("Mario World v4.1 Enabled");
    }
 
    public void onDisable(){
@@ -261,7 +265,7 @@ public class MarioMain extends JavaPlugin{
       
       this.getConfig().set("lives", defaultLives);
       saveConfig();
-      log.info("Mario World v4.0 shutdown successfully");
+      log.info("Mario World v4.1 shutdown successfully");
    }
    
    public String clearCheckpoint(String name, UUID uid){
@@ -339,5 +343,9 @@ public class MarioMain extends JavaPlugin{
 
    public Locale getAussieLocale(){
       return aussieLocale;
+   }
+
+   public Locale getRomanianLocale(){
+      return romanianLocale;
    }
 }

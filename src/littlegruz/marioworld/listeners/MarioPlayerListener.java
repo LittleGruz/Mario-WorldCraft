@@ -100,6 +100,13 @@ public class MarioPlayerListener implements Listener{
                         SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
                      else
                         event.getPlayer().sendMessage(plugin.getCurrentRB().getString("PowerUpFind"));
+                  } else if(mb.getBlockType().compareToIgnoreCase("1-up") == 0){
+                     block.setType(Material.STONE);
+                     topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.CAKE, 1));
+                     if(plugin.isSpoutEnabled())
+                        SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_powerup_appears.wav", true);
+                     else
+                        event.getPlayer().sendMessage(plugin.getCurrentRB().getString("PowerUpFind"));
                   } else if(mb.getBlockType().compareToIgnoreCase("inv") == 0){
                      block.setType(Material.STONE);
                      topBlockLoc.getWorld().dropItem(topBlockLoc, new ItemStack(Material.COOKIE, 1));
@@ -188,6 +195,7 @@ public class MarioPlayerListener implements Listener{
             event.getItem().remove();
             event.setCancelled(true);
             mp.setLives(mp.getLives() + 1);
+            event.getPlayer().sendMessage(plugin.getCurrentRB().getString("1UP"));
             // File size 38KB
             if(plugin.isSpoutEnabled())
                SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);

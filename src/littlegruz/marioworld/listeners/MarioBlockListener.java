@@ -84,6 +84,15 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
+         }  else if(event.getItemInHand().getType().compareTo(Material.CAKE) == 0){
+            if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
+               plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "1-up"));
+               event.getPlayer().sendMessage(plugin.getCurrentRB().getString("1UPBlockSaved"));
+            }
+            else{
+               plugin.getBlockMap().remove(event.getBlock().getLocation());
+               event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
+            }
          } else if(event.getItemInHand().getType().compareTo(Material.BRICK) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "break"));
@@ -144,7 +153,7 @@ public class MarioBlockListener implements Listener{
                      && loc.getBlockZ() >= playerLoc.getBlockZ() - 1 && loc.getBlockZ() <= playerLoc.getBlockZ() + 2
                      && !mp.getValue().getCheckpoint().equals(loc)){
                   plugin.getServer().getPlayer(mp.getValue().getPlayaName()).sendMessage(plugin.getCurrentRB().getString("CPSet"));
-                  loc.setY(loc.getY() - 1);
+                  loc.setY(loc.getY() + 1);
                   mp.getValue().setCheckpoint(loc);
                }
             }
