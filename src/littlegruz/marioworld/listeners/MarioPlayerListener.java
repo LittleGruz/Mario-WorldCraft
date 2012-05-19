@@ -178,6 +178,7 @@ public class MarioPlayerListener implements Listener{
                } else if(mp.getState().compareToIgnoreCase("Fire") == 0){
                   event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Shrink"));
                   plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Large");
+                  event.getPlayer().getInventory().remove(Material.EGG);
                   // File size 8KB
                   if(plugin.isSpoutEnabled())
                      SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);

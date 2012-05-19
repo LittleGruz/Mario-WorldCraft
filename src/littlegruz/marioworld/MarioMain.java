@@ -194,6 +194,8 @@ public class MarioMain extends JavaPlugin{
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", aussieLocale);
          else if(getConfig().getString("language").compareTo("romanian") == 0)
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", romanianLocale);
+         else if(getConfig().getString("language").compareTo("german") == 0)
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.GERMAN);
       }
       else
          currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
