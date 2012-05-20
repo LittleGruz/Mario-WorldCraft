@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import littlegruz.marioworld.commands.CheckpointStuff;
@@ -84,7 +83,7 @@ public class MarioMain extends JavaPlugin{
          // Load block file data into the block HashMap
          while((input = br.readLine()) != null){
             st = new StringTokenizer(input, " ");
-            loc = new Location(getServer().getWorld(UUID.fromString(st.nextToken())), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+            loc = new Location(getServer().getWorld(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
             mb = new MarioBlock(loc, Material.getMaterial(st.nextToken()), st.nextToken());
             if(Integer.parseInt(st.nextToken()) == 1)
                mb.setHit(true);
@@ -121,7 +120,7 @@ public class MarioMain extends JavaPlugin{
             state = st.nextToken();
             coins = Integer.parseInt(st.nextToken());
             lives = Integer.parseInt(st.nextToken());
-            loc = new Location(getServer().getWorld(UUID.fromString(st.nextToken())), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+            loc = new Location(getServer().getWorld(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
             playerMap.put(name, new MarioPlayer(name, state, loc, coins, lives));
          }
          br.close();
@@ -218,7 +217,7 @@ public class MarioMain extends JavaPlugin{
             Entry<Location, MarioBlock> mb = it.next();
             if(mb.getValue().isHit())
                hit = 1;
-            bw.write(mb.getValue().getLocation().getWorld().getUID().toString() + " "
+            bw.write(mb.getValue().getLocation().getWorld().getName() + " "
                   + Double.toString(mb.getValue().getLocation().getX()) + " "
                   + Double.toString(mb.getValue().getLocation().getY()) + " "
                   + Double.toString(mb.getValue().getLocation().getZ()) + " "
@@ -241,7 +240,7 @@ public class MarioMain extends JavaPlugin{
                   + mp.getValue().getState() + " "
                   + Integer.toString(mp.getValue().getCoins()) + " "
                   + Integer.toString(mp.getValue().getLives()) + " "
-                  + mp.getValue().getCheckpoint().getWorld().getUID().toString() + " "
+                  + mp.getValue().getCheckpoint().getWorld().getName() + " "
                   + Double.toString(mp.getValue().getCheckpoint().getX()) + " "
                   + Double.toString(mp.getValue().getCheckpoint().getY()) + " "
                   + Double.toString(mp.getValue().getCheckpoint().getZ()) + "\n");
@@ -255,7 +254,7 @@ public class MarioMain extends JavaPlugin{
          bw = new BufferedWriter(new FileWriter(worldFile));
          Iterator<Map.Entry<String, String>> it = worldMap.entrySet().iterator();
          
-         // Save all world UUIDs to file
+         // Save all world names to file
          while(it.hasNext()){
             Entry<String, String> mp = it.next();
             bw.write(mp.getValue() + "\n");
@@ -270,9 +269,9 @@ public class MarioMain extends JavaPlugin{
       log.info(this.toString() + " disabled");
    }
    
-   public String clearCheckpoint(String name, UUID uid){
+   public String clearCheckpoint(String name, String worldName){
       if(playerMap.get(name) != null){
-         playerMap.get(name).setCheckpoint(getServer().getWorld(uid).getSpawnLocation());
+         playerMap.get(name).setCheckpoint(getServer().getWorld(worldName).getSpawnLocation());
          return name + " " + currentRB.getString("PlayerCheckpointResetP2");
       } else
          return name + " " + currentRB.getString("PlayerCheckpointNotResetP2");
@@ -285,7 +284,7 @@ public class MarioMain extends JavaPlugin{
          //Play gameover music and display a large "Game Over" label
          //plugin.getServer().getPlayer(mp.getPlayaName()).sendMessage("Game Over");
          //plugin.getGui().placeGameOver(event.getPlayer());
-         clearCheckpoint(mp.getPlayaName(), playa.getWorld().getUID());
+         clearCheckpoint(mp.getPlayaName(), playa.getWorld().getName());
          // File size 164KB
          if(spoutEnabled)
             SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_gameover.wav", true);
@@ -315,8 +314,8 @@ public class MarioMain extends JavaPlugin{
       this.marioDamage = marioDamage;
    }
    
-   public UUID getPlayerWorld(String name){
-      return getServer().getPlayer(name).getWorld().getUID();
+   public String getPlayerWorld(String name){
+      return getServer().getPlayer(name).getWorld().getName();
    }
 
    public MarioGUI getGui(){

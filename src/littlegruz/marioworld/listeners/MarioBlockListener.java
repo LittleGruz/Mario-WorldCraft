@@ -27,7 +27,7 @@ public class MarioBlockListener implements Listener{
    // Adding special Mario blocks
    @EventHandler
    public void onBlockDamage(BlockDamageEvent event){
-      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          if(!event.getPlayer().isOp() || event.getInstaBreak())
             return;
          if(event.getItemInHand().getType().compareTo(Material.REDSTONE_TORCH_ON) == 0){
@@ -138,7 +138,7 @@ public class MarioBlockListener implements Listener{
    // The checkpoint plate trigger
    @EventHandler
    public void onBlockPhysics(BlockPhysicsEvent event){
-      if(plugin.getWorldMap().containsKey(event.getBlock().getWorld().getUID().toString())
+      if(plugin.getWorldMap().containsKey(event.getBlock().getWorld().getName())
             && event.getBlock().getType().compareTo(Material.STONE_PLATE) == 0
             && plugin.getBlockMap().get(event.getBlock().getLocation()) != null){
          Location loc = event.getBlock().getLocation();
@@ -152,9 +152,8 @@ public class MarioBlockListener implements Listener{
                      && loc.getBlockY() == playerLoc.getBlockY()
                      && loc.getBlockZ() >= playerLoc.getBlockZ() - 1 && loc.getBlockZ() <= playerLoc.getBlockZ() + 2
                      && !mp.getValue().getCheckpoint().equals(loc)){
-                  plugin.getServer().getPlayer(mp.getValue().getPlayaName()).sendMessage(plugin.getCurrentRB().getString("CPSet"));
-                  loc.setY(loc.getY() + 1);
                   mp.getValue().setCheckpoint(loc);
+                  plugin.getServer().getPlayer(mp.getValue().getPlayaName()).sendMessage(plugin.getCurrentRB().getString("CPSet"));
                }
             }
          }

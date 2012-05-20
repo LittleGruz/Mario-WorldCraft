@@ -22,7 +22,7 @@ public class MarioEntityListener implements Listener{
 
    @EventHandler
    public void onEntityDamage(EntityDamageEvent event){
-      if(plugin.getWorldMap().containsKey(event.getEntity().getWorld().getUID().toString())){
+      if(plugin.getWorldMap().containsKey(event.getEntity().getWorld().getName())){
          if(plugin.isMarioDamage() && event.getEntity() instanceof Player){
             Player playa = (Player) event.getEntity();
             if(plugin.getPlayerMap().get(playa.getName()).isInvincible()){

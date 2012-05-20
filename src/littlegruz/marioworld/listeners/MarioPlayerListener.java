@@ -36,7 +36,7 @@ public class MarioPlayerListener implements Listener{
       Location blockLoc, topBlockLoc;
       Block block;
 
-      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          if(plugin.getPlayerMap().get(event.getPlayer().getName()).getHitBlock() != null
                && playerEye.getY() - (int) playerEye.getY() < 0.74){
             plugin.getPlayerMap().get(event.getPlayer().getName()).setHitBlock(null);
@@ -153,7 +153,7 @@ public class MarioPlayerListener implements Listener{
 
    @EventHandler
    public void onPlayerPickupItem(PlayerPickupItemEvent event){
-      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString()) && plugin.isMarioDamage()){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName()) && plugin.isMarioDamage()){
          MarioPlayer mp = plugin.getPlayerMap().get(event.getPlayer().getName());
          // Effect given when obtaining a growth mushroom
          if(event.getItem().getItemStack().getType().compareTo(Material.RED_MUSHROOM) == 0){
@@ -197,6 +197,7 @@ public class MarioPlayerListener implements Listener{
             event.setCancelled(true);
             mp.setLives(mp.getLives() + 1);
             event.getPlayer().sendMessage(plugin.getCurrentRB().getString("1UP"));
+            event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
             // File size 38KB
             if(plugin.isSpoutEnabled())
                SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
@@ -253,29 +254,6 @@ public class MarioPlayerListener implements Listener{
          plugin.getGui().update(event.getPlayer());
    }
    
-   public void coinGet(MarioPlayer mp, Player p, int amount){
-      if(mp.getCoins() + amount >= 100){
-         mp.setCoins(0);
-         mp.setLives(mp.getLives() + 1);
-         if(plugin.isSpoutEnabled()){
-            SpoutPlayer sp = SpoutManager.getPlayer(p);
-            SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
-         }
-         else{
-            p.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
-            p.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
-         }
-      }else{
-         mp.setCoins(mp.getCoins() + amount);
-         if(plugin.isSpoutEnabled()){
-            SpoutPlayer sp = SpoutManager.getPlayer(p);
-            SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
-         }
-         else
-            p.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
-      }
-   }
-   
    /* When a player joins, add them to the Mario Player ArrayList if they
     * aren't already in the list*/
    @EventHandler
@@ -285,7 +263,7 @@ public class MarioPlayerListener implements Listener{
          plugin.getPlayerMap().put(name, new MarioPlayer(name, "Small", plugin.getServer().getWorld(plugin.getPlayerWorld(name)).getSpawnLocation(), 0, 3));
       }
       
-      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          event.getPlayer().sendMessage(plugin.getCurrentRB().getString("WelcomeP1")
                + event.getPlayer().getName() + ", " + plugin.getCurrentRB().getString("WelcomeP2"));
       }
@@ -293,7 +271,7 @@ public class MarioPlayerListener implements Listener{
 
    @EventHandler
    public void onPlayerRespawn(PlayerRespawnEvent event){
-      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          MarioPlayer mp;
          mp = plugin.getPlayerMap().get(event.getPlayer().getName());
          mp.setState("Small");
@@ -312,7 +290,7 @@ public class MarioPlayerListener implements Listener{
 
    @EventHandler
    public void onPlayerEggThrow(PlayerEggThrowEvent event){
-      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          if(plugin.getPlayerMap().get(event.getPlayer().getName()).getState().compareToIgnoreCase("Fire") == 0){
             event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
             // File size 7KB
@@ -323,5 +301,25 @@ public class MarioPlayerListener implements Listener{
          }
          event.setHatching(false);
       }
+   }
+   
+   public void coinGet(MarioPlayer mp, Player p, int amount){
+      if(mp.getCoins() + amount >= 100){
+         mp.setCoins(0);
+         mp.setLives(mp.getLives() + 1);
+         if(plugin.isSpoutEnabled()){
+            SpoutPlayer sp = SpoutManager.getPlayer(p);
+            SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
+         }
+         else
+            p.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
+      }else{
+         mp.setCoins(mp.getCoins() + amount);
+         if(plugin.isSpoutEnabled()){
+            SpoutPlayer sp = SpoutManager.getPlayer(p);
+            SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
+         }
+      }
+      p.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
    }
 }

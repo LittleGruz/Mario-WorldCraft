@@ -55,7 +55,7 @@ public class GameplayStuff implements CommandExecutor{
                      mp.getValue().getCheckpoint().setWorld(playa.getWorld());
                   }
                   if(mp.getValue().getCheckpoint().getWorld().getUID().equals(playa.getWorld().getUID())){
-                     plugin.clearCheckpoint(mp.getValue().getPlayaName(), playa.getWorld().getUID());
+                     plugin.clearCheckpoint(mp.getValue().getPlayaName(), playa.getWorld().getName());
                      mp.getValue().setCoins(0);
                      mp.getValue().setLives(plugin.getDefaultLives());
                      mp.getValue().setState("Small");

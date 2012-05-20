@@ -15,7 +15,7 @@ public class MarioSpoutListener implements Listener{
 
    @EventHandler
    public void onSpoutCraftEnable(SpoutCraftEnableEvent event){
-      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+      if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          plugin.getGui().update(event.getPlayer());
       }
    }

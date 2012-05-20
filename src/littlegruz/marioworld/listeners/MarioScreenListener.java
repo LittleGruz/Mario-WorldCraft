@@ -17,7 +17,7 @@ public class MarioScreenListener implements Listener{
 
    @EventHandler
    public void onScreenOpen(ScreenOpenEvent event){
-      if(event.getScreenType().compareTo(ScreenType.INGAME_MENU) == 0 && plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getUID().toString())){
+      if(event.getScreenType().compareTo(ScreenType.INGAME_MENU) == 0 && plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          // File size 31KB
          SpoutManager.getSoundManager().playCustomSoundEffect(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_pause.wav", false);
       }

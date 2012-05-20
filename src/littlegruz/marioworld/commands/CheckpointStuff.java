@@ -22,13 +22,13 @@ public class CheckpointStuff implements CommandExecutor{
          if(sender instanceof Player){
             player = (Player) sender;
             if(args.length == 0){
-               plugin.clearCheckpoint(player.getName(), player.getWorld().getUID());
+               plugin.clearCheckpoint(player.getName(), player.getWorld().getName());
                player.sendMessage(plugin.getCurrentRB().getString("CheckpointReset"));
             }
          }else if(args.length == 1 && sender.hasPermission("marioworld.admincommands")){
             if(plugin.getServer().getPlayer(args[0]) != null){
                sender.sendMessage(plugin.getCurrentRB().getString("PlayerCheckpointResetP1") + 
-                  plugin.clearCheckpoint(args[0], plugin.getServer().getPlayer(args[0]).getWorld().getUID()));
+                  plugin.clearCheckpoint(args[0], plugin.getServer().getPlayer(args[0]).getWorld().getName()));
             } else
                sender.sendMessage(plugin.getCurrentRB().getString("NoneOnline"));
          }

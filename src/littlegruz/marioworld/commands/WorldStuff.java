@@ -22,10 +22,10 @@ public class WorldStuff implements CommandExecutor{
          if(sender instanceof Player){
             player = (Player) sender;
             if(sender.hasPermission("marioworld.admincommands")){
-               if(plugin.getWorldMap().get(player.getWorld().getUID().toString()) != null){
+               if(plugin.getWorldMap().get(player.getWorld().getName()) != null){
                   player.sendMessage(plugin.getCurrentRB().getString("WorldIsAdded"));
                }else{
-                  plugin.getWorldMap().put(player.getWorld().getUID().toString(), player.getWorld().getUID().toString());
+                  plugin.getWorldMap().put(player.getWorld().getName(), player.getWorld().getName());
                   player.sendMessage(plugin.getCurrentRB().getString("WorldAdded"));
                   if(plugin.isSpoutEnabled())
                      plugin.getGui().update(player);
@@ -38,10 +38,10 @@ public class WorldStuff implements CommandExecutor{
          if(sender instanceof Player){
             player = (Player) sender;
             if(sender.hasPermission("marioworld.admincommands")){
-               if(plugin.getWorldMap().get(player.getWorld().getUID().toString()) == null){
+               if(plugin.getWorldMap().get(player.getWorld().getName()) == null){
                   player.sendMessage(plugin.getCurrentRB().getString("WorldNotAdded"));
                }else{
-                  plugin.getWorldMap().remove(player.getWorld().getUID().toString());
+                  plugin.getWorldMap().remove(player.getWorld().getName());
                   player.sendMessage(plugin.getCurrentRB().getString("WorldRemoved"));
                   if(plugin.isSpoutEnabled())
                      plugin.getGui().remove(player);
