@@ -202,7 +202,7 @@ public class MarioMain extends JavaPlugin{
       
       if(spoutEnabled)
          gui = new MarioGUI(this);
-      log.info("Mario World v4.1 Enabled");
+      log.info(this.toString() + " enabled");
    }
 
    public void onDisable(){
@@ -267,7 +267,7 @@ public class MarioMain extends JavaPlugin{
       
       this.getConfig().set("lives", defaultLives);
       saveConfig();
-      log.info("Mario World v4.1 shutdown successfully");
+      log.info(this.toString() + " disabled");
    }
    
    public String clearCheckpoint(String name, UUID uid){
