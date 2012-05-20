@@ -58,7 +58,7 @@ public class GameplayStuff implements CommandExecutor{
                      plugin.clearCheckpoint(mp.getValue().getPlayaName(), playa.getWorld().getUID());
                      mp.getValue().setCoins(0);
                      mp.getValue().setLives(plugin.getDefaultLives());
-                     mp.getValue().setState(plugin.getCurrentRB().getString("Small"));
+                     mp.getValue().setState("Small");
                      
                      Player player = plugin.getServer().getPlayer(mp.getValue().getPlayaName());
                      if(player != null && player.getItemInHand().getType().compareTo(Material.EGG) == 0){
