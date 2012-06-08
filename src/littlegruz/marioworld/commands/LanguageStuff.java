@@ -58,6 +58,13 @@ public class LanguageStuff implements CommandExecutor{
                   if(plugin.isSpoutEnabled() && sender instanceof Player)
                      plugin.getGui().update((Player) sender);
                }
+               else if(args[0].compareToIgnoreCase("dutch") == 0){
+                  plugin.setCurrentRB(ResourceBundle.getBundle("littlegruz/marioworld/languages/language", plugin.getNederlandsLocale()));
+                  plugin.getConfig().set("language", "nederland");
+                  sender.sendMessage(plugin.getCurrentRB().getString("LanguageChange"));
+                  if(plugin.isSpoutEnabled() && sender instanceof Player)
+                     plugin.getGui().update((Player) sender);
+               }
             } else{
                sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
             }

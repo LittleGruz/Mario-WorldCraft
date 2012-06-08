@@ -58,6 +58,7 @@ public class MarioMain extends JavaPlugin{
    private Locale spanishLocale;
    private Locale aussieLocale;
    private Locale romanianLocale;
+   private Locale nederlandsLocale;
    private Location firstWarp;
    private boolean marioDamage;
    private boolean spoutEnabled;
@@ -116,7 +117,7 @@ public class MarioMain extends JavaPlugin{
          MarioBlock mb;
          StringTokenizer st;
          
-         // Load block file data into the block HashMap
+         // Load warp block file data into the block HashMap
          while((input = br.readLine()) != null){
             st = new StringTokenizer(input, " ");
             locEntry = new Location(getServer().getWorld(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
@@ -127,6 +128,7 @@ public class MarioMain extends JavaPlugin{
          br.close();
          
       }catch(FileNotFoundException e){
+         log.info("No original Mario warp block file, but that's okay! DON'T PANIC!");
       }catch(IOException e){
          log.info("Error reading Mario warp block file");
       }catch(Exception e){
@@ -206,6 +208,7 @@ public class MarioMain extends JavaPlugin{
       spanishLocale = new Locale("spa", "ES");
       aussieLocale = new Locale("aus", "AU");
       romanianLocale = new Locale("ro", "ROU");
+      nederlandsLocale = new Locale("nl", "NLD");
       
       warpPlacement = 0;
       firstWarp = null;
@@ -230,6 +233,8 @@ public class MarioMain extends JavaPlugin{
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", romanianLocale);
          else if(getConfig().getString("language").compareTo("german") == 0)
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.GERMAN);
+         else if(getConfig().getString("language").compareTo("nederland") == 0)
+            currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", nederlandsLocale);
       }
       else
          currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
@@ -270,7 +275,7 @@ public class MarioMain extends JavaPlugin{
          int hit = 0;
          bw = new BufferedWriter(new FileWriter(warpFile));
          
-         // Save all MarioBlocks to file
+         // Save all warp blocks to file
          Iterator<Map.Entry<Location, MarioBlock>> it = blockMap.entrySet().iterator();
          while(it.hasNext()){
             Entry<Location, MarioBlock> mb = it.next();
@@ -413,6 +418,10 @@ public class MarioMain extends JavaPlugin{
 
    public Locale getRomanianLocale(){
       return romanianLocale;
+   }
+
+   public Locale getNederlandsLocale(){
+      return nederlandsLocale;
    }
 
    public int getWarpPlacement(){

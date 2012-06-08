@@ -159,7 +159,7 @@ public class MarioPlayerListener implements Listener{
                blockLoc.setZ(blockLoc.getZ() + 0.5);
                
                event.getPlayer().teleport(blockLoc);
-               event.getPlayer().sendMessage("*warped*");
+               event.getPlayer().sendMessage("*zwoop*");
             }
          }
       }
