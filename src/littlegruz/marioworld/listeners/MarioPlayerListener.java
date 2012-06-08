@@ -44,7 +44,6 @@ public class MarioPlayerListener implements Listener{
          
          /* If the players eye level goes above x.74 then they will end up hitting
          their head on a block */
-         //event.getPlayer().sendMessage(Double.toString(playerEye.getY()));
          if(playerEye.getY() - (int) playerEye.getY() > 0.74){
             blockLoc = playerEye;
             blockLoc.setY(blockLoc.getY() + 1);
@@ -146,6 +145,21 @@ public class MarioPlayerListener implements Listener{
                }
                if(plugin.isSpoutEnabled())
                   plugin.getGui().update(event.getPlayer());
+            }
+         }
+         
+         blockLoc = event.getPlayer().getLocation().getBlock().getLocation();
+         blockLoc.setY(blockLoc.getY() - 1);
+         
+         if(plugin.getBlockMap().get(blockLoc) != null){
+            if(plugin.getBlockMap().get(blockLoc).getBlockType().compareTo("warp") == 0){
+               blockLoc = plugin.getBlockMap().get(blockLoc).getLocation().clone();
+               blockLoc.setY(blockLoc.getY() + 1);
+               blockLoc.setX(blockLoc.getX() + 0.5);
+               blockLoc.setZ(blockLoc.getZ() + 0.5);
+               
+               event.getPlayer().teleport(blockLoc);
+               event.getPlayer().sendMessage("*warped*");
             }
          }
       }

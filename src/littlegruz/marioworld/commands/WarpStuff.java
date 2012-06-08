@@ -24,11 +24,12 @@ public class WarpStuff implements CommandExecutor{
          String commandLabel, String[] args){
       if(cmd.getName().compareToIgnoreCase("displaywarppipes") == 0){
          if(sender.hasPermission("marioworld.admincommands")){
-            sender.sendMessage("Entrance | Exit");
+            sender.sendMessage(plugin.getCurrentRB().getString("Entry") + " | " + plugin.getCurrentRB().getString("Exit"));
             Iterator<Map.Entry<Location, MarioBlock>> it = plugin.getBlockMap().entrySet().iterator();
             while(it.hasNext()){
                Entry<Location, MarioBlock> mp = it.next();
-               sender.sendMessage(mp.getKey().getBlockX() + "," + mp.getKey().getBlockY() + "," + mp.getKey().getBlockZ() + " | " + mp.getValue().getLocation().getBlockX() + "," + mp.getValue().getLocation().getBlockY() + "," + mp.getValue().getLocation().getBlockZ());
+               if(mp.getValue().getBlockType().compareTo("warp") == 0)
+                  sender.sendMessage(mp.getKey().getBlockX() + "," + mp.getKey().getBlockY() + "," + mp.getKey().getBlockZ() + " | " + mp.getValue().getLocation().getBlockX() + "," + mp.getValue().getLocation().getBlockY() + "," + mp.getValue().getLocation().getBlockZ());
             }
          }
       }
@@ -36,7 +37,7 @@ public class WarpStuff implements CommandExecutor{
          if(sender.hasPermission("marioworld.admincommands")){
             plugin.setWarpPlacement(0);
             plugin.setFirstWarp(null);
-            sender.sendMessage("Warp placement canceled");
+            sender.sendMessage(plugin.getCurrentRB().getString("WarpCancel"));
          }
       }
       return true;

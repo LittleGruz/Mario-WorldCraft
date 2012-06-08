@@ -52,6 +52,7 @@ public class MarioMain extends JavaPlugin{
    private File blockFile;
    private File playerFile;
    private File worldFile;
+   private File warpFile;
    private MarioGUI gui;
    private ResourceBundle currentRB;
    private Locale spanishLocale;
@@ -69,6 +70,7 @@ public class MarioMain extends JavaPlugin{
       blockFile = new File(getDataFolder().toString() + "/marioblocks.txt");
       playerFile = new File(getDataFolder().toString() + "/marioplayers.txt");
       worldFile = new File(getDataFolder().toString() + "/marioworlds.txt");
+      warpFile = new File(getDataFolder().toString() + "/mariowarps.txt");
       
       spoutEnabled = getServer().getPluginManager().isPluginEnabled("Spout");
       
@@ -104,6 +106,31 @@ public class MarioMain extends JavaPlugin{
          log.info("Error reading Mario block file");
       }catch(Exception e){
          log.info("Incorrectly formatted Mario block file");
+      }
+      
+      // Load up the warp blocks from file
+      try{
+         br = new BufferedReader(new FileReader(warpFile));
+         String input;
+         Location locEntry, locExit;
+         MarioBlock mb;
+         StringTokenizer st;
+         
+         // Load block file data into the block HashMap
+         while((input = br.readLine()) != null){
+            st = new StringTokenizer(input, " ");
+            locEntry = new Location(getServer().getWorld(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+            locExit = new Location(getServer().getWorld(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+            mb = new MarioBlock(locExit, Material.getMaterial(st.nextToken()), st.nextToken());
+            blockMap.put(locEntry, mb);
+         }
+         br.close();
+         
+      }catch(FileNotFoundException e){
+      }catch(IOException e){
+         log.info("Error reading Mario warp block file");
+      }catch(Exception e){
+         log.info("Incorrectly formatted Mario warp block file");
       }
 
       playerMap = new HashMap<String, MarioPlayer>();
@@ -216,25 +243,55 @@ public class MarioMain extends JavaPlugin{
       BufferedWriter bw;
       log.info("Saving Mario data...");
       try{
-         bw = new BufferedWriter(new FileWriter(blockFile));
          int hit = 0;
+         bw = new BufferedWriter(new FileWriter(blockFile));
          
          // Save all MarioBlocks to file
          Iterator<Map.Entry<Location, MarioBlock>> it = blockMap.entrySet().iterator();
          while(it.hasNext()){
             Entry<Location, MarioBlock> mb = it.next();
-            if(mb.getValue().isHit())
-               hit = 1;
-            bw.write(mb.getValue().getLocation().getWorld().getName() + " "
-                  + Double.toString(mb.getValue().getLocation().getX()) + " "
-                  + Double.toString(mb.getValue().getLocation().getY()) + " "
-                  + Double.toString(mb.getValue().getLocation().getZ()) + " "
-                  + mb.getValue().getType().toString() + " "
-                  + mb.getValue().getBlockType() + " " + hit + "\n");
+            if(mb.getValue().getBlockType().compareTo("warp") != 0){
+               if(mb.getValue().isHit())
+                  hit = 1;
+               bw.write(mb.getValue().getLocation().getWorld().getName() + " "
+                     + Double.toString(mb.getValue().getLocation().getX()) + " "
+                     + Double.toString(mb.getValue().getLocation().getY()) + " "
+                     + Double.toString(mb.getValue().getLocation().getZ()) + " "
+                     + mb.getValue().getType().toString() + " "
+                     + mb.getValue().getBlockType() + " " + hit + "\n");
+            }
          }
          bw.close();
       }catch(IOException e){
          log.info("Error saving Mario blocks");
+      }
+      
+      try{
+         int hit = 0;
+         bw = new BufferedWriter(new FileWriter(warpFile));
+         
+         // Save all MarioBlocks to file
+         Iterator<Map.Entry<Location, MarioBlock>> it = blockMap.entrySet().iterator();
+         while(it.hasNext()){
+            Entry<Location, MarioBlock> mb = it.next();
+            if(mb.getValue().getBlockType().compareTo("warp") == 0){
+               if(mb.getValue().isHit())
+                  hit = 1;
+               bw.write(mb.getKey().getWorld().getName() + " "
+                     + Double.toString(mb.getKey().getX()) + " "
+                     + Double.toString(mb.getKey().getY()) + " "
+                     + Double.toString(mb.getKey().getZ()) + " "
+                     + mb.getValue().getLocation().getWorld().getName() + " "
+                     + Double.toString(mb.getValue().getLocation().getX()) + " "
+                     + Double.toString(mb.getValue().getLocation().getY()) + " "
+                     + Double.toString(mb.getValue().getLocation().getZ()) + " "
+                     + mb.getValue().getType().toString() + " "
+                     + mb.getValue().getBlockType() + " " + hit + "\n");
+            }
+         }
+         bw.close();
+      }catch(IOException e){
+         log.info("Error saving Mario warp blocks");
       }
       
       try{

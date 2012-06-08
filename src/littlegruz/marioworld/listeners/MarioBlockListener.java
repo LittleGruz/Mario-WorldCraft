@@ -31,6 +31,7 @@ public class MarioBlockListener implements Listener{
          if(!event.getPlayer().hasPermission("marioworld.admincommands") || event.getInstaBreak())
             return;
          
+         // Power block
          if(event.getItemInHand().getType().compareTo(Material.REDSTONE_TORCH_ON) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "question"));
@@ -40,7 +41,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.GOLD_INGOT) == 0){
+         }
+         // Coin block
+         else if(event.getItemInHand().getType().compareTo(Material.GOLD_INGOT) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "coin"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("CBlockSaved"));
@@ -49,7 +52,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.BROWN_MUSHROOM) == 0){
+         }
+         // Poison mushroom block
+         else if(event.getItemInHand().getType().compareTo(Material.BROWN_MUSHROOM) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "poison"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("PBlockSaved"));
@@ -58,7 +63,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.RED_MUSHROOM) == 0){
+         }
+         // Super mushroom block
+         else if(event.getItemInHand().getType().compareTo(Material.RED_MUSHROOM) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "super"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SBlockSaved"));
@@ -67,7 +74,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.RED_ROSE) == 0){
+         }
+         // Fire flower block
+         else if(event.getItemInHand().getType().compareTo(Material.RED_ROSE) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "fire"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("FFBlockSaved"));
@@ -76,7 +85,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.COOKIE) == 0){
+         }
+         // Invincibility star block
+         else if(event.getItemInHand().getType().compareTo(Material.COOKIE) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "inv"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("IBlockSaved"));
@@ -85,7 +96,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.CAKE) == 0){
+         }
+         // 1-up block
+         else if(event.getItemInHand().getType().compareTo(Material.CAKE) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "1-up"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("1UPBlockSaved"));
@@ -94,7 +107,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.BRICK) == 0){
+         }
+         // Breakable block
+         else if(event.getItemInHand().getType().compareTo(Material.BRICK) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "break"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("BBlockSaved"));
@@ -103,7 +118,9 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.CACTUS) == 0){
+         }
+         // Checkpoint block
+         else if(event.getItemInHand().getType().compareTo(Material.CACTUS) == 0){
             if(event.getBlock().getType().compareTo(Material.STONE_PLATE) == 0){
                if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                   plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "cp"));
@@ -132,26 +149,40 @@ public class MarioBlockListener implements Listener{
                event.getPlayer().getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("RBlockSaved"));
             }
-         } else if(event.getItemInHand().getType().compareTo(Material.ENDER_PEARL) == 0){
+         }
+         // Warp block
+         else if(event.getItemInHand().getType().compareTo(Material.ENDER_PEARL) == 0){
             // Give that block a warp entrance!
             if(plugin.getWarpPlacement() == 0){
-               event.getPlayer().sendMessage("Warp entrance placed");
+               if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
+                  plugin.setWarpPlacement(1);
+                  plugin.setFirstWarp(event.getBlock().getLocation());
+                  event.getPlayer().sendMessage(plugin.getCurrentRB().getString("WarpEntrance"));
+                  event.getPlayer().sendMessage(plugin.getCurrentRB().getString("HitExit"));
+               }
+               else
+                  event.getPlayer().sendMessage(plugin.getCurrentRB().getString("WarpEntranceExists"));
                
-               plugin.setWarpPlacement(1);
-               plugin.setFirstWarp(event.getBlock().getLocation());
-               
-               event.getPlayer().sendMessage("Hit the block you want to be the warp exit");
             }
             // Give that block a warp exit!
             else if(plugin.getWarpPlacement() == 1){
-               event.getPlayer().sendMessage("Warp exit placed");
-               
-               /* The location in the key is the entrance and the location in the
-                * MarioBlock is the exit*/
-               plugin.getBlockMap().put(plugin.getFirstWarp(), new MarioBlock(event.getBlock().getLocation(), "warp"));
-               
-               plugin.setWarpPlacement(0);
-               plugin.setFirstWarp(null);
+               if(!plugin.getFirstWarp().equals(event.getBlock().getLocation())){
+                  event.getPlayer().sendMessage(plugin.getCurrentRB().getString("WarpExit"));
+                  /* The location in the key is the entrance and the location in the
+                   * MarioBlock is the exit*/
+                  plugin.getBlockMap().put(plugin.getFirstWarp(), new MarioBlock(event.getBlock().getLocation(), "warp"));
+                  plugin.setWarpPlacement(0);
+                  plugin.setFirstWarp(null);
+               }
+               else
+                  event.getPlayer().sendMessage(plugin.getCurrentRB().getString("EntryNotExit"));
+            }
+         }
+         // Remove any mario block
+         else if(event.getItemInHand().getType().compareTo(Material.DIRT) == 0){
+            if(plugin.getBlockMap().containsKey(event.getBlock())
+                  && event.getPlayer().hasPermission("marioworld.admincommands")){
+               plugin.getBlockMap().remove(event.getBlock().getLocation());
             }
          }
       }
