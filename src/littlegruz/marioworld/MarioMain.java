@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import littlegruz.marioworld.commands.CheckpointStuff;
 import littlegruz.marioworld.commands.GameplayStuff;
 import littlegruz.marioworld.commands.LanguageStuff;
+import littlegruz.marioworld.commands.WarpStuff;
 import littlegruz.marioworld.commands.WorldStuff;
 import littlegruz.marioworld.entities.MarioBlock;
 import littlegruz.marioworld.entities.MarioPlayer;
@@ -56,9 +57,11 @@ public class MarioMain extends JavaPlugin{
    private Locale spanishLocale;
    private Locale aussieLocale;
    private Locale romanianLocale;
+   private Location firstWarp;
    private boolean marioDamage;
    private boolean spoutEnabled;
    private int defaultLives;
+   private int warpPlacement;
 
    public void onEnable(){
       // Create the directory and files if needed
@@ -170,10 +173,15 @@ public class MarioMain extends JavaPlugin{
       getCommand("changelanguage").setExecutor(new LanguageStuff(this));
       getCommand("addmarioworld").setExecutor(new WorldStuff(this));
       getCommand("removemarioworld").setExecutor(new WorldStuff(this));
+      getCommand("displaywarppipes").setExecutor(new WarpStuff(this));
+      getCommand("cancelwarppipe").setExecutor(new WarpStuff(this));
 
       spanishLocale = new Locale("spa", "ES");
       aussieLocale = new Locale("aus", "AU");
       romanianLocale = new Locale("ro", "ROU");
+      
+      warpPlacement = 0;
+      firstWarp = null;
       
       // Pulling data from config.yml
       if(getConfig().isBoolean("damage"))
@@ -348,5 +356,21 @@ public class MarioMain extends JavaPlugin{
 
    public Locale getRomanianLocale(){
       return romanianLocale;
+   }
+
+   public int getWarpPlacement(){
+      return warpPlacement;
+   }
+
+   public void setWarpPlacement(int warpPlacement){
+      this.warpPlacement = warpPlacement;
+   }
+
+   public Location getFirstWarp(){
+      return firstWarp;
+   }
+
+   public void setFirstWarp(Location firstWarp){
+      this.firstWarp = firstWarp;
    }
 }

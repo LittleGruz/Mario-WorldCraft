@@ -28,8 +28,9 @@ public class MarioBlockListener implements Listener{
    @EventHandler
    public void onBlockDamage(BlockDamageEvent event){
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
-         if(!event.getPlayer().isOp() || event.getInstaBreak())
+         if(!event.getPlayer().hasPermission("marioworld.admincommands") || event.getInstaBreak())
             return;
+         
          if(event.getItemInHand().getType().compareTo(Material.REDSTONE_TORCH_ON) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "question"));
@@ -84,7 +85,7 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().remove(event.getBlock().getLocation());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
-         }  else if(event.getItemInHand().getType().compareTo(Material.CAKE) == 0){
+         } else if(event.getItemInHand().getType().compareTo(Material.CAKE) == 0){
             if(plugin.getBlockMap().get(event.getBlock().getLocation()) == null){
                plugin.getBlockMap().put(event.getBlock().getLocation(), new MarioBlock(event.getBlock().getLocation(), "1-up"));
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("1UPBlockSaved"));
@@ -130,6 +131,27 @@ public class MarioBlockListener implements Listener{
                plugin.getBlockMap().put(loc, new MarioBlock(loc, "respawn"));
                event.getPlayer().getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
                event.getPlayer().sendMessage(plugin.getCurrentRB().getString("RBlockSaved"));
+            }
+         } else if(event.getItemInHand().getType().compareTo(Material.ENDER_PEARL) == 0){
+            // Give that block a warp entrance!
+            if(plugin.getWarpPlacement() == 0){
+               event.getPlayer().sendMessage("Warp entrance placed");
+               
+               plugin.setWarpPlacement(1);
+               plugin.setFirstWarp(event.getBlock().getLocation());
+               
+               event.getPlayer().sendMessage("Hit the block you want to be the warp exit");
+            }
+            // Give that block a warp exit!
+            else if(plugin.getWarpPlacement() == 1){
+               event.getPlayer().sendMessage("Warp exit placed");
+               
+               /* The location in the key is the entrance and the location in the
+                * MarioBlock is the exit*/
+               plugin.getBlockMap().put(plugin.getFirstWarp(), new MarioBlock(event.getBlock().getLocation(), "warp"));
+               
+               plugin.setWarpPlacement(0);
+               plugin.setFirstWarp(null);
             }
          }
       }

@@ -23,6 +23,12 @@ commands:
    marioscore:
       description: Displays a player's score
       usage: /marioscore <player_name>
+   addwarppipe:
+      description: Allows the creation of warp pipe pairs
+      usage: /addwarppipe
+   displaywarppipes:
+      description: Lists the locations of the warp pipe pairs
+      usage: /displaywarppipes
 permissions:
    marioworld.admincommands:
       description: Any of the administration commands
