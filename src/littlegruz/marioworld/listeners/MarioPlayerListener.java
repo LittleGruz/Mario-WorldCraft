@@ -21,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-/* Total music downloads required: 463KB*/
+/* Total music downloads required: 498KB*/
 
 public class MarioPlayerListener implements Listener{
    private static MarioMain plugin;
@@ -159,7 +159,11 @@ public class MarioPlayerListener implements Listener{
                blockLoc.setZ(blockLoc.getZ() + 0.5);
                
                event.getPlayer().teleport(blockLoc);
-               event.getPlayer().sendMessage("*zwoop*");
+            // File size 35KB
+               if(plugin.isSpoutEnabled())
+                  SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_pipe.wav", true);
+               else
+                  event.getPlayer().sendMessage("*zwoop*");
             }
          }
       }
@@ -287,18 +291,27 @@ public class MarioPlayerListener implements Listener{
    public void onPlayerRespawn(PlayerRespawnEvent event){
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName())){
          MarioPlayer mp;
+         Location loc;
          mp = plugin.getPlayerMap().get(event.getPlayer().getName());
-         mp.setState("Small");
+         
          if(mp.getLives() <= 0){
             mp.setLives(plugin.getDefaultLives());
             mp.setCheckpoint(event.getPlayer().getWorld().getSpawnLocation());
          }
-         event.setRespawnLocation(mp.getCheckpoint());
+
+         mp.setState("Small");
+         loc = mp.getCheckpoint().clone();
+         loc.setX(loc.getX() + 0.5);
+         loc.setZ(loc.getZ() + 0.5);
+         event.setRespawnLocation(loc);
          //plugin.getGui().removeGameOver(event.getPlayer());
+         
          if(plugin.isSpoutEnabled())
             plugin.getGui().update(event.getPlayer());
          else
             event.getPlayer().sendMessage(plugin.getCurrentRB().getString("LivesLeft") + ": " + Integer.toString(mp.getLives()));
+         
+         plugin.getLavaDeathMap().remove(mp.getPlayaName());
       }
    }
 

@@ -205,7 +205,7 @@ public class MarioBlockListener implements Listener{
                      && loc.getBlockY() == playerLoc.getBlockY()
                      && loc.getBlockZ() >= playerLoc.getBlockZ() - 1 && loc.getBlockZ() <= playerLoc.getBlockZ() + 2
                      && !mp.getValue().getCheckpoint().equals(loc)){
-                  mp.getValue().setCheckpoint(loc);
+                  mp.getValue().setCheckpoint(loc.clone());
                   plugin.getServer().getPlayer(mp.getValue().getPlayaName()).sendMessage(plugin.getCurrentRB().getString("CPSet"));
                }
             }

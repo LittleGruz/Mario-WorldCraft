@@ -48,6 +48,7 @@ public class MarioMain extends JavaPlugin{
    private HashMap<Location, MarioBlock> blockMap;
    private HashMap<String, MarioPlayer> playerMap;
    private HashMap<String, String> worldMap;
+   private HashMap<String, String> lavaDeathMap;
    //private HashMap<String, String> invMap;
    private File blockFile;
    private File playerFile;
@@ -212,6 +213,7 @@ public class MarioMain extends JavaPlugin{
       
       warpPlacement = 0;
       firstWarp = null;
+      lavaDeathMap = new HashMap<String, String>();
       
       // Pulling data from config.yml
       if(getConfig().isBoolean("damage"))
@@ -233,7 +235,7 @@ public class MarioMain extends JavaPlugin{
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", romanianLocale);
          else if(getConfig().getString("language").compareTo("german") == 0)
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.GERMAN);
-         else if(getConfig().getString("language").compareTo("nederland") == 0)
+         else if(getConfig().getString("language").compareTo("dutch") == 0)
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", nederlandsLocale);
       }
       else
@@ -350,6 +352,7 @@ public class MarioMain extends JavaPlugin{
    public void deathSequence(Player playa){
       MarioPlayer mp = playerMap.get(playa.getName());
       mp.setLives(mp.getLives() - 1);
+      
       if(mp.getLives() == 0){
          //Play gameover music and display a large "Game Over" label
          //plugin.getServer().getPlayer(mp.getPlayaName()).sendMessage("Game Over");
@@ -358,10 +361,12 @@ public class MarioMain extends JavaPlugin{
          // File size 164KB
          if(spoutEnabled)
             SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_gameover.wav", true);
-      }else
+      }else{
          // File size 118KB
          if(spoutEnabled)
             SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_mariodie.wav", true);
+      }
+      lavaDeathMap.put(playa.getName(), "badger");
    }
    
    public HashMap<Location, MarioBlock> getBlockMap(){
@@ -438,5 +443,9 @@ public class MarioMain extends JavaPlugin{
 
    public void setFirstWarp(Location firstWarp){
       this.firstWarp = firstWarp;
+   }
+
+   public HashMap<String, String> getLavaDeathMap(){
+      return lavaDeathMap;
    }
 }

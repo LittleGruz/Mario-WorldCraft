@@ -60,7 +60,7 @@ public class LanguageStuff implements CommandExecutor{
                }
                else if(args[0].compareToIgnoreCase("dutch") == 0){
                   plugin.setCurrentRB(ResourceBundle.getBundle("littlegruz/marioworld/languages/language", plugin.getNederlandsLocale()));
-                  plugin.getConfig().set("language", "nederland");
+                  plugin.getConfig().set("language", "dutch");
                   sender.sendMessage(plugin.getCurrentRB().getString("LanguageChange"));
                   if(plugin.isSpoutEnabled() && sender instanceof Player)
                      plugin.getGui().update((Player) sender);

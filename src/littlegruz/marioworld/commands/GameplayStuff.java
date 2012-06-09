@@ -98,8 +98,10 @@ public class GameplayStuff implements CommandExecutor{
       }
       else if(cmd.getName().compareToIgnoreCase("marioscore") == 0){
          if(sender.hasPermission("marioworld.admincommands")){
-            if(args.length == 1 && plugin.getPlayerMap().get(args[0]) != null)
-               sender.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(plugin.getPlayerMap().get(args[0]).getCoins()));
+            if(args.length == 1){
+               if(plugin.getPlayerMap().get(args[0]) != null)
+                  sender.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(plugin.getPlayerMap().get(args[0]).getCoins()));
+            }
             else
                sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
          }else

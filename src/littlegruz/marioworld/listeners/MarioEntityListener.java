@@ -52,7 +52,7 @@ public class MarioEntityListener implements Listener{
                         SpoutManager.getSoundManager().playCustomSoundEffect(plugin, SpoutManager.getPlayer(playa), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
                   }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Small") == 0){
                      plugin.deathSequence(playa);
-                     playa.damage(1000);
+                     playa.setHealth(0);
                   }else if(plugin.getPlayerMap().get(playa.getName()).getState().compareToIgnoreCase("Fire") == 0){
                      plugin.getPlayerMap().get(playa.getName()).setState("Large");
                      playa.sendMessage(plugin.getCurrentRB().getString("Shrink"));
@@ -65,10 +65,11 @@ public class MarioEntityListener implements Listener{
                   plugin.getGui().update(playa);
             }else{
                event.setCancelled(true);
-               if(event.getCause().compareTo(DamageCause.FIRE) == 0
-                     || event.getCause().compareTo(DamageCause.LAVA) == 0){
+               if((event.getCause().compareTo(DamageCause.FIRE) == 0
+                     || event.getCause().compareTo(DamageCause.LAVA) == 0)
+                     && plugin.getLavaDeathMap().get(playa.getName()) == null){
                   plugin.deathSequence(playa);
-                  playa.damage(1000);
+                  playa.setHealth(0);
                }
             }
          } else if(event.getCause().compareTo(DamageCause.PROJECTILE) == 0
