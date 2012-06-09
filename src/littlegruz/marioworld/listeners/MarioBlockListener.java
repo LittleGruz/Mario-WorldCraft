@@ -180,9 +180,10 @@ public class MarioBlockListener implements Listener{
          }
          // Remove any mario block
          else if(event.getItemInHand().getType().compareTo(Material.DIRT) == 0){
-            if(plugin.getBlockMap().containsKey(event.getBlock())
+            if(plugin.getBlockMap().containsKey(event.getBlock().getLocation())
                   && event.getPlayer().hasPermission("marioworld.admincommands")){
                plugin.getBlockMap().remove(event.getBlock().getLocation());
+               event.getPlayer().sendMessage(plugin.getCurrentRB().getString("SpecialBlockRemoved"));
             }
          }
       }

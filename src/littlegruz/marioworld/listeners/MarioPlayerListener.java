@@ -4,6 +4,7 @@ import littlegruz.marioworld.MarioMain;
 import littlegruz.marioworld.entities.MarioBlock;
 import littlegruz.marioworld.entities.MarioPlayer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -173,12 +174,12 @@ public class MarioPlayerListener implements Listener{
    public void onPlayerPickupItem(PlayerPickupItemEvent event){
       if(plugin.getWorldMap().containsKey(event.getPlayer().getWorld().getName()) && plugin.isMarioDamage()){
          MarioPlayer mp = plugin.getPlayerMap().get(event.getPlayer().getName());
-         // Effect given when obtaining a growth mushroom
+         // Effect given when obtaining a super mushroom
          if(event.getItem().getItemStack().getType().compareTo(Material.RED_MUSHROOM) == 0){
             event.getItem().remove();
             event.setCancelled(true);
             if(mp.getState().compareToIgnoreCase("Small") == 0){
-               event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Growth"));
+               event.getPlayer().sendMessage(ChatColor.DARK_RED + plugin.getCurrentRB().getString("Growth"));
                mp.setState("Large");
                // File size 10KB
                if(plugin.isSpoutEnabled())
@@ -194,14 +195,14 @@ public class MarioPlayerListener implements Listener{
                   event.getPlayer().damage(1000);
                   plugin.deathSequence(event.getPlayer());
                } else if(mp.getState().compareToIgnoreCase("Fire") == 0){
-                  event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Shrink"));
+                  event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + plugin.getCurrentRB().getString("Shrink"));
                   plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Large");
                   event.getPlayer().getInventory().remove(Material.EGG);
                   // File size 8KB
                   if(plugin.isSpoutEnabled())
                      SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerdown.wav", true);
                } else{
-                  event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Shrink"));
+                  event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + plugin.getCurrentRB().getString("Shrink"));
                   plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Small");
                   // File size 8KB
                   if(plugin.isSpoutEnabled())
@@ -214,8 +215,8 @@ public class MarioPlayerListener implements Listener{
             event.getItem().remove();
             event.setCancelled(true);
             mp.setLives(mp.getLives() + 1);
-            event.getPlayer().sendMessage(plugin.getCurrentRB().getString("1UP"));
-            event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
+            event.getPlayer().sendMessage(ChatColor.GREEN + plugin.getCurrentRB().getString("1UP"));
+            event.getPlayer().sendMessage(ChatColor.GREEN + plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
             // File size 38KB
             if(plugin.isSpoutEnabled())
                SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
@@ -231,14 +232,14 @@ public class MarioPlayerListener implements Listener{
             event.getItem().remove();
             event.setCancelled(true);
             if(mp.getState().compareToIgnoreCase("Large") == 0){
-               event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Fireball"));
+               event.getPlayer().sendMessage(ChatColor.RED + plugin.getCurrentRB().getString("Fireball"));
                mp.setState("Fire");
                event.getPlayer().setItemInHand(new ItemStack(Material.EGG, 1));
                // File size 10KB
                if(plugin.isSpoutEnabled())
                   SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb3_powerup.wav", true);
             } else{
-               event.getPlayer().sendMessage(plugin.getCurrentRB().getString("Growth"));
+               event.getPlayer().sendMessage(ChatColor.RED + plugin.getCurrentRB().getString("Growth"));
                mp.setState("Large");
                // File size 10KB
                if(plugin.isSpoutEnabled())
@@ -254,7 +255,7 @@ public class MarioPlayerListener implements Listener{
             if(plugin.isSpoutEnabled())
                SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/starman.wav", true);
             mPlayer.setInvincible(true);
-            event.getPlayer().sendMessage(plugin.getCurrentRB().getString("StarPower"));
+            event.getPlayer().sendMessage(ChatColor.YELLOW + plugin.getCurrentRB().getString("StarPower"));
             event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 280, 1));
             
             // Set invincibility to run out when the music stops (14.09s)
@@ -262,7 +263,7 @@ public class MarioPlayerListener implements Listener{
 
                public void run() {
                    mPlayer.setInvincible(false);
-                   plugin.getServer().getPlayer(mPlayer.getPlayaName()).sendMessage(plugin.getCurrentRB().getString("StarPowerWane"));
+                   plugin.getServer().getPlayer(mPlayer.getPlayaName()).sendMessage(ChatColor.YELLOW + plugin.getCurrentRB().getString("StarPowerWane"));
                }
            }, 280L);
             
@@ -309,7 +310,7 @@ public class MarioPlayerListener implements Listener{
          if(plugin.isSpoutEnabled())
             plugin.getGui().update(event.getPlayer());
          else
-            event.getPlayer().sendMessage(plugin.getCurrentRB().getString("LivesLeft") + ": " + Integer.toString(mp.getLives()));
+            event.getPlayer().sendMessage(ChatColor.GREEN + plugin.getCurrentRB().getString("LivesLeft") + ": " + Integer.toString(mp.getLives()));
          
          plugin.getLavaDeathMap().remove(mp.getPlayaName());
       }
@@ -324,7 +325,7 @@ public class MarioPlayerListener implements Listener{
             if(plugin.isSpoutEnabled())
                SpoutManager.getSoundManager().playCustomMusic(plugin, SpoutManager.getPlayer(event.getPlayer()), "https://sites.google.com/site/littlegruzsplace/download/smb_fireball.wav", true);
             else
-               event.getPlayer().sendMessage("*fwoosh*");
+               event.getPlayer().sendMessage(ChatColor.RED + "*fwoosh*");
          }
          event.setHatching(false);
       }
@@ -342,7 +343,7 @@ public class MarioPlayerListener implements Listener{
             SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
          }
          else
-            playa.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
+            playa.sendMessage(ChatColor.GREEN + plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
       }else{
          
          // Still level up the player when they gain 100 coins
@@ -354,7 +355,7 @@ public class MarioPlayerListener implements Listener{
                SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
             }
             else
-               playa.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
+               playa.sendMessage(ChatColor.GREEN + plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
          }
          mp.setCoins(mp.getCoins() + amount);
          
@@ -363,6 +364,6 @@ public class MarioPlayerListener implements Listener{
             SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
          }
       }
-      playa.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
+      playa.sendMessage(ChatColor.YELLOW + plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
    }
 }
