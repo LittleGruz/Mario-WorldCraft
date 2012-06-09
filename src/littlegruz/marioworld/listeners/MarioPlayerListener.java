@@ -334,7 +334,7 @@ public class MarioPlayerListener implements Listener{
    public void coinGet(MarioPlayer mp, Player playa, int amount){
       if(mp.getCoins() + amount >= 100
             && !plugin.isCoinPersistence()){
-         mp.setCoins(0);
+         mp.setCoins((mp.getCoins() + amount) % 100);
          mp.setLives(mp.getLives() + 1);
          
          if(plugin.isSpoutEnabled()){

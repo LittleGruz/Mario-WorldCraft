@@ -364,7 +364,7 @@ public class MarioMain extends JavaPlugin{
          //plugin.getServer().getPlayer(mp.getPlayaName()).sendMessage("Game Over");
          //plugin.getGui().placeGameOver(event.getPlayer());
          clearCheckpoint(mp.getPlayaName(), playa.getWorld().getName());
-         if(coinPersistence)
+         if(!coinPersistence)
             mp.setCoins(0);
          // File size 164KB
          if(spoutEnabled)
