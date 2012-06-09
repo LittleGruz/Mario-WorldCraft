@@ -6,7 +6,7 @@ commands:
       description: Resets all the Mario item blocks and player stats to their original state
       usage: /mariorestart
    mariodamage:
-      description: Toggles the damage to and from being similar to in the Mario games
+      description: Toggles damage between being similar to Mario and not similar
       usage: /mariodamage
    addmarioworld:
       description: Adds the current world to the list of worlds effected by the mod
@@ -29,6 +29,9 @@ commands:
    cancelwarppipe:
       description: Cancels the current placement of a warp pipe
       usage: /cancelwarppipe
+   keepmariocoins:
+      description: Toggles whether or not coins are kept on a "game over" or life gain
+      usage: /keepmariocoins
 permissions:
    marioworld.admincommands:
       description: Any of the administration commands

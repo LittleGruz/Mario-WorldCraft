@@ -77,24 +77,18 @@ public class GameplayStuff implements CommandExecutor{
          }
       }
       else if(cmd.getName().compareToIgnoreCase("mariodamage") == 0){
-         Player player;
-         if(sender instanceof Player){
-            player = (Player) sender;
-            if(sender.hasPermission("marioworld.admincommands")){
-               if(plugin.isMarioDamage()){
-                  plugin.setMarioDamage(false);
-                  plugin.getConfig().set("damage", false);
-                  player.sendMessage(plugin.getCurrentRB().getString("MWDamageDisabled"));
-               }else{
-                  plugin.setMarioDamage(true);
-                  plugin.getConfig().set("damage", true);
-                  player.sendMessage(plugin.getCurrentRB().getString("MWDamageEnabled"));
-               }
-            }else
-               player.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
-         } else{
-            sender.sendMessage(plugin.getCurrentRB().getString("CanNotBeConsole"));
-         }
+         if(sender.hasPermission("marioworld.admincommands")){
+            if(plugin.isMarioDamage()){
+               plugin.setMarioDamage(false);
+               plugin.getConfig().set("damage", false);
+               sender.sendMessage(plugin.getCurrentRB().getString("MWDamageDisabled"));
+            }else{
+               plugin.setMarioDamage(true);
+               plugin.getConfig().set("damage", true);
+               sender.sendMessage(plugin.getCurrentRB().getString("MWDamageEnabled"));
+            }
+         }else
+            sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
       }
       else if(cmd.getName().compareToIgnoreCase("marioscore") == 0){
          if(sender.hasPermission("marioworld.admincommands")){
@@ -104,6 +98,20 @@ public class GameplayStuff implements CommandExecutor{
             }
             else
                sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
+         }else
+            sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
+      }
+      else if(cmd.getName().compareToIgnoreCase("keepmariocoins") == 0){
+         if(sender.hasPermission("marioworld.admincommands")){
+            if(plugin.isCoinPersistence()){
+               plugin.setCoinPersistence(false);
+               plugin.getConfig().set("coin_persistence", false);
+               sender.sendMessage(plugin.getCurrentRB().getString("CoinLose"));
+            }else{
+               plugin.setCoinPersistence(true);
+               plugin.getConfig().set("coin_persistence", true);
+               sender.sendMessage(plugin.getCurrentRB().getString("CoinKeep"));
+            }
          }else
             sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
       }

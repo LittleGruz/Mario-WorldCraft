@@ -330,23 +330,39 @@ public class MarioPlayerListener implements Listener{
       }
    }
    
-   public void coinGet(MarioPlayer mp, Player p, int amount){
-      if(mp.getCoins() + amount >= 100){
+   // Determines what happens when a player gets a coin
+   public void coinGet(MarioPlayer mp, Player playa, int amount){
+      if(mp.getCoins() + amount >= 100
+            && !plugin.isCoinPersistence()){
          mp.setCoins(0);
          mp.setLives(mp.getLives() + 1);
+         
          if(plugin.isSpoutEnabled()){
-            SpoutPlayer sp = SpoutManager.getPlayer(p);
+            SpoutPlayer sp = SpoutManager.getPlayer(playa);
             SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
          }
          else
-            p.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
+            playa.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
       }else{
+         
+         // Still level up the player when they gain 100 coins
+         if((mp.getCoins() + amount) % 100 == 0 && plugin.isCoinPersistence()){
+            mp.setLives(mp.getLives() + 1);
+            
+            if(plugin.isSpoutEnabled()){
+               SpoutPlayer sp = SpoutManager.getPlayer(playa);
+               SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_1up.wav", true);
+            }
+            else
+               playa.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
+         }
          mp.setCoins(mp.getCoins() + amount);
+         
          if(plugin.isSpoutEnabled()){
-            SpoutPlayer sp = SpoutManager.getPlayer(p);
+            SpoutPlayer sp = SpoutManager.getPlayer(playa);
             SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
          }
       }
-      p.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
+      playa.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
    }
 }

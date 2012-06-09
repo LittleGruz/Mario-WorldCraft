@@ -63,6 +63,7 @@ public class MarioMain extends JavaPlugin{
    private Location firstWarp;
    private boolean marioDamage;
    private boolean spoutEnabled;
+   private boolean coinPersistence;
    private int defaultLives;
    private int warpPlacement;
 
@@ -200,6 +201,7 @@ public class MarioMain extends JavaPlugin{
       getCommand("mariorestart").setExecutor(new GameplayStuff(this));
       getCommand("mariodamage").setExecutor(new GameplayStuff(this));
       getCommand("marioscore").setExecutor(new GameplayStuff(this));
+      getCommand("keepmariocoins").setExecutor(new GameplayStuff(this));
       getCommand("changelanguage").setExecutor(new LanguageStuff(this));
       getCommand("addmarioworld").setExecutor(new WorldStuff(this));
       getCommand("removemarioworld").setExecutor(new WorldStuff(this));
@@ -220,6 +222,10 @@ public class MarioMain extends JavaPlugin{
          marioDamage = getConfig().getBoolean("damage");
       else
          marioDamage = false;
+      if(getConfig().isBoolean("coin_persistence"))
+         coinPersistence = getConfig().getBoolean("coin_persistence");
+      else
+         coinPersistence = false;
       if(getConfig().isInt("lives"))
          defaultLives = getConfig().getInt("lives");
       else
@@ -358,6 +364,8 @@ public class MarioMain extends JavaPlugin{
          //plugin.getServer().getPlayer(mp.getPlayaName()).sendMessage("Game Over");
          //plugin.getGui().placeGameOver(event.getPlayer());
          clearCheckpoint(mp.getPlayaName(), playa.getWorld().getName());
+         if(coinPersistence)
+            mp.setCoins(0);
          // File size 164KB
          if(spoutEnabled)
             SpoutManager.getSoundManager().playCustomMusic(this, SpoutManager.getPlayer(playa), "http://sites.google.com/site/littlegruzsplace/download/smb_gameover.wav", true);
@@ -447,5 +455,13 @@ public class MarioMain extends JavaPlugin{
 
    public HashMap<String, String> getLavaDeathMap(){
       return lavaDeathMap;
+   }
+
+   public boolean isCoinPersistence(){
+      return coinPersistence;
+   }
+
+   public void setCoinPersistence(boolean coinPersistence){
+      this.coinPersistence = coinPersistence;
    }
 }
