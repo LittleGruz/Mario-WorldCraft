@@ -333,9 +333,9 @@ public class MarioPlayerListener implements Listener{
    
    // Determines what happens when a player gets a coin
    public void coinGet(MarioPlayer mp, Player playa, int amount){
-      if(mp.getCoins() + amount >= 100
+      if(mp.getCoins() + amount >= plugin.getCoinLevel()
             && !plugin.isCoinPersistence()){
-         mp.setCoins((mp.getCoins() + amount) % 100);
+         mp.setCoins((mp.getCoins() + amount) % plugin.getCoinLevel());
          mp.setLives(mp.getLives() + 1);
          
          if(plugin.isSpoutEnabled()){
@@ -346,8 +346,8 @@ public class MarioPlayerListener implements Listener{
             playa.sendMessage(ChatColor.GREEN + plugin.getCurrentRB().getString("Lives") + ": " + Integer.toString(mp.getLives()));
       }else{
          
-         // Still level up the player when they gain 100 coins
-         if((mp.getCoins() + amount) % 100 == 0 && plugin.isCoinPersistence()){
+         // Still level up the player when they enough coins to level up
+         if((mp.getCoins() + amount) % plugin.getCoinLevel() == 0 && plugin.isCoinPersistence()){
             mp.setLives(mp.getLives() + 1);
             
             if(plugin.isSpoutEnabled()){

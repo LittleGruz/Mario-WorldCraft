@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import littlegruz.marioworld.commands.CheckpointStuff;
 import littlegruz.marioworld.commands.GameplayStuff;
 import littlegruz.marioworld.commands.LanguageStuff;
+import littlegruz.marioworld.commands.PlayerStuff;
 import littlegruz.marioworld.commands.WarpStuff;
 import littlegruz.marioworld.commands.WorldStuff;
 import littlegruz.marioworld.entities.MarioBlock;
@@ -66,6 +67,7 @@ public class MarioMain extends JavaPlugin{
    private boolean coinPersistence;
    private int defaultLives;
    private int warpPlacement;
+   private int coinLevel;
 
    public void onEnable(){
       // Create the directory and files if needed
@@ -200,13 +202,16 @@ public class MarioMain extends JavaPlugin{
       getCommand("clearmariocheckpoint").setExecutor(new CheckpointStuff(this));
       getCommand("mariorestart").setExecutor(new GameplayStuff(this));
       getCommand("mariodamage").setExecutor(new GameplayStuff(this));
-      getCommand("marioscore").setExecutor(new GameplayStuff(this));
       getCommand("keepmariocoins").setExecutor(new GameplayStuff(this));
+      getCommand("changecoinlevelup").setExecutor(new GameplayStuff(this));
+      getCommand("changedefaultlives").setExecutor(new GameplayStuff(this));
       getCommand("changelanguage").setExecutor(new LanguageStuff(this));
       getCommand("addmarioworld").setExecutor(new WorldStuff(this));
       getCommand("removemarioworld").setExecutor(new WorldStuff(this));
       getCommand("displaywarppipes").setExecutor(new WarpStuff(this));
       getCommand("cancelwarppipe").setExecutor(new WarpStuff(this));
+      getCommand("mario").setExecutor(new PlayerStuff(this));
+      getCommand("marioscore").setExecutor(new PlayerStuff(this));
 
       spanishLocale = new Locale("spa", "ES");
       aussieLocale = new Locale("aus", "AU");
@@ -230,6 +235,10 @@ public class MarioMain extends JavaPlugin{
          defaultLives = getConfig().getInt("lives");
       else
          defaultLives = 3;
+      if(getConfig().isInt("coin_level"))
+            coinLevel = getConfig().getInt("coin_level");
+         else
+            coinLevel = 100;
       if(getConfig().isString("language")){
          if(getConfig().getString("language").compareTo("english") == 0)
             currentRB = ResourceBundle.getBundle("littlegruz/marioworld/languages/language", Locale.ENGLISH);
@@ -463,5 +472,17 @@ public class MarioMain extends JavaPlugin{
 
    public void setCoinPersistence(boolean coinPersistence){
       this.coinPersistence = coinPersistence;
+   }
+
+   public void setDefaultLives(int defaultLives){
+      this.defaultLives = defaultLives;
+   }
+
+   public int getCoinLevel(){
+      return coinLevel;
+   }
+
+   public void setCoinLevel(int coinLevel){
+      this.coinLevel = coinLevel;
    }
 }

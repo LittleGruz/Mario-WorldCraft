@@ -99,17 +99,6 @@ public class GameplayStuff implements CommandExecutor{
          }else
             sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
       }
-      else if(cmd.getName().compareToIgnoreCase("marioscore") == 0){
-         if(sender.hasPermission("marioworld.admincommands")){
-            if(args.length == 1){
-               if(plugin.getPlayerMap().get(args[0]) != null)
-                  sender.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(plugin.getPlayerMap().get(args[0]).getCoins()));
-            }
-            else
-               sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
-         }else
-            sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
-      }
       else if(cmd.getName().compareToIgnoreCase("keepmariocoins") == 0){
          if(sender.hasPermission("marioworld.admincommands")){
             if(plugin.isCoinPersistence()){
@@ -121,6 +110,30 @@ public class GameplayStuff implements CommandExecutor{
                plugin.getConfig().set("coin_persistence", true);
                sender.sendMessage(plugin.getCurrentRB().getString("CoinKeep"));
             }
+         }else
+            sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
+      }
+      else if(cmd.getName().compareToIgnoreCase("changedefaultlives") == 0){
+         if(sender.hasPermission("marioworld.admincommands")){
+            if(args.length == 1){
+               plugin.getConfig().set("lives", Integer.parseInt(args[0]));
+               plugin.setDefaultLives(Integer.parseInt(args[0]));
+               sender.sendMessage(plugin.getCurrentRB().getString("Lives") + ": " + args[0]);
+            }
+            else
+               sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
+         }else
+            sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
+      }
+      else if(cmd.getName().compareToIgnoreCase("changecoinlevelup") == 0){
+         if(sender.hasPermission("marioworld.admincommands")){
+            if(args.length == 1){
+               plugin.getConfig().set("coin_level", Integer.parseInt(args[0]));
+               plugin.setDefaultLives(Integer.parseInt(args[0]));
+               sender.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + args[0]);
+            }
+            else
+               sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
          }else
             sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
       }

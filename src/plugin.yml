@@ -1,6 +1,6 @@
 name: MarioWorld
 main: littlegruz.marioworld.MarioMain
-version: 4.4
+version: 4.5
 commands:
    mariorestart:
       description: Resets all the Mario item blocks and player stats to their original state
@@ -32,6 +32,15 @@ commands:
    keepmariocoins:
       description: Toggles whether or not coins are kept on a "game over" or life gain
       usage: /keepmariocoins
+   changedefaultlives:
+      description: Changes the the number of lives a player gets when starting/after game over
+      usage: /changedefaultlives
+   changecoinlevelup:
+      description: Changes the the number of coins a player needs to level up
+      usage: /changecoinlevelup
+   mario:
+      description: Adds or subtracts lives/coins from a player
+      usage: /mario <attribute> <add/sub> <player_name> <amount>
 permissions:
    marioworld.admincommands:
       description: Any of the administration commands
