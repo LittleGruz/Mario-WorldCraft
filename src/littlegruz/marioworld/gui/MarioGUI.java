@@ -10,7 +10,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 import org.getspout.spoutapi.gui.Color;
 
 public class MarioGUI{
-   MarioMain plugin;
+   private MarioMain plugin;
    private GenericLabel lifeLabel;
    private GenericLabel coinLabel;
    private GenericLabel stateLabel;

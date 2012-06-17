@@ -34,10 +34,10 @@ commands:
       usage: /keepmariocoins
    changedefaultlives:
       description: Changes the the number of lives a player gets when starting/after game over
-      usage: /changedefaultlives
+      usage: /changedefaultlives <amount>
    changecoinlevelup:
       description: Changes the the number of coins a player needs to level up
-      usage: /changecoinlevelup
+      usage: /changecoinlevelup <amount>
    mario:
       description: Adds or subtracts lives/coins from a player
       usage: /mario <attribute> <add/sub> <player_name> <amount>

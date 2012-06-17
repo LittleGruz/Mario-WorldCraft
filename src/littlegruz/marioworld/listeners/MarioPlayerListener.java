@@ -268,9 +268,9 @@ public class MarioPlayerListener implements Listener{
            }, 280L);
             
          }
+         if(plugin.isSpoutEnabled())
+            plugin.getGui().update(event.getPlayer());
       }
-      if(plugin.isSpoutEnabled())
-         plugin.getGui().update(event.getPlayer());
    }
    
    /* When a player joins, add them to the Mario Player ArrayList if they
