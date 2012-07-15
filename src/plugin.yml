@@ -1,10 +1,12 @@
 name: MarioWorld
 main: littlegruz.marioworld.MarioMain
-version: 4.5
+author: LittleGruz
+website: http://www.littlegruz.com
+version: 4.5.1
 commands:
    mariorestart:
       description: Resets all the Mario item blocks and player stats to their original state
-      usage: /mariorestart
+      usage: /mariorestart [world_name]
    mariodamage:
       description: Toggles damage between being similar to Mario and not similar
       usage: /mariodamage
@@ -45,6 +47,4 @@ permissions:
    marioworld.admincommands:
       description: Any of the administration commands
       default: op
-softdepend: [Spout]
-softdepend: [Multiverse-Core]
-softdepend: [My Worlds]
+softdepend: [Spout, Multiverse-Core, My Worlds, MultiWorld]
