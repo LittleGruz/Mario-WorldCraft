@@ -364,6 +364,7 @@ public class MarioPlayerListener implements Listener{
             SpoutManager.getSoundManager().playCustomMusic(plugin, sp, "https://sites.google.com/site/littlegruzsplace/download/smb_coin.wav", true);
          }
       }
-      playa.sendMessage(ChatColor.YELLOW + plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
+      if(!plugin.isSpoutEnabled())
+         playa.sendMessage(ChatColor.YELLOW + plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(mp.getCoins()));
    }
 }

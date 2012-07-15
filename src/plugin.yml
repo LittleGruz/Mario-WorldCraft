@@ -6,7 +6,7 @@ version: 4.5.1
 commands:
    mariorestart:
       description: Resets all the Mario item blocks and player stats to their original state
-      usage: /mariorestart [world_name]
+      usage: /mariorestart [c] [world_name]
    mariodamage:
       description: Toggles damage between being similar to Mario and not similar
       usage: /mariodamage

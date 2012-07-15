@@ -47,6 +47,16 @@ public class GameplayStuff implements CommandExecutor{
                   sender.sendMessage(plugin.getCurrentRB().getString("MWRestart"));
                }
             }
+            else if(args.length == 2){
+               if(plugin.getServer().getWorld(args[1]) == null){
+                  sender.sendMessage(plugin.getCurrentRB().getString("WorldNotAdded"));
+                  return false;
+               }
+               else{
+                  restartWorld(sender, args, plugin.getServer().getWorld(args[1]));
+                  sender.sendMessage(plugin.getCurrentRB().getString("MWRestart"));
+               }
+            }
             else
                return false;
          }
@@ -140,7 +150,7 @@ public class GameplayStuff implements CommandExecutor{
             /* Reset coins to 0 if coin persistence is off or if it is
              * on and the command line argument is "c"*/
             if(plugin.isCoinPersistence()){
-               if(args.length == 1){
+               if(args.length >= 1){
                   if(args[0].compareTo("c") == 0)
                      mp.getValue().setCoins(0);
                }
@@ -156,7 +166,8 @@ public class GameplayStuff implements CommandExecutor{
             }
          }
          
-         if(plugin.getServer().getPlayer(mp.getKey()).isOnline()){
+         if(plugin.getServer().getPlayer(mp.getKey()) != null
+               && plugin.getServer().getPlayer(mp.getKey()).isOnline()){
             if(plugin.isSpoutEnabled())
                plugin.getGui().update(plugin.getServer().getPlayer(mp.getKey()));
          }
