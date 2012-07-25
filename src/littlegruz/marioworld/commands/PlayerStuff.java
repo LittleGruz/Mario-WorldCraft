@@ -66,8 +66,10 @@ public class PlayerStuff implements CommandExecutor{
       else if(cmd.getName().compareToIgnoreCase("cpreturn") == 0){
          if(sender.hasPermission("marioworld.admincommands")){
             if(args.length == 1){
-               if(plugin.getServer().getPlayer(args[0]) != null)
+               if(plugin.getServer().getPlayer(args[0]) != null){
                   plugin.getServer().getPlayer(args[0]).teleport(plugin.getPlayerMap().get(args[0]).getCheckpoint());
+                  sender.sendMessage("*woosh*");
+               }
             }
             else
                sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
