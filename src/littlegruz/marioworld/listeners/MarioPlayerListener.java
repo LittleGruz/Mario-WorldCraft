@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -294,13 +295,7 @@ public class MarioPlayerListener implements Listener{
          MarioPlayer mp;
          Location loc;
          mp = plugin.getPlayerMap().get(event.getPlayer().getName());
-         
-         if(mp.getLives() <= 0){
-            mp.setLives(plugin.getDefaultLives());
-            mp.setCheckpoint(event.getPlayer().getWorld().getSpawnLocation());
-         }
 
-         mp.setState("Small");
          loc = mp.getCheckpoint().clone();
          loc.setX(loc.getX() + 0.5);
          loc.setZ(loc.getZ() + 0.5);
@@ -328,6 +323,21 @@ public class MarioPlayerListener implements Listener{
                event.getPlayer().sendMessage(ChatColor.RED + "*fwoosh*");
          }
          event.setHatching(false);
+      }
+   }
+
+   @EventHandler
+   public void onPlayerDeath(PlayerDeathEvent event){
+      if(plugin.getWorldMap().containsKey(event.getEntity().getWorld().getName())){
+         MarioPlayer mp;
+         mp = plugin.getPlayerMap().get(event.getEntity().getName());
+         
+         if(mp.getLives() <= 0){
+            mp.setLives(plugin.getDefaultLives());
+            mp.setCheckpoint(event.getEntity().getWorld().getSpawnLocation());
+         }
+         
+         mp.setState("Small");
       }
    }
    
