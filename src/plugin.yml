@@ -2,7 +2,7 @@ name: MarioWorld
 main: littlegruz.marioworld.MarioMain
 author: LittleGruz
 website: http://www.littlegruz.com
-version: 4.5.1
+version: 4.6
 commands:
    mariorestart:
       description: Resets all the Mario item blocks and player stats to their original state
@@ -43,6 +43,9 @@ commands:
    mario:
       description: Adds or subtracts lives/coins from a player
       usage: /mario <attribute> <add/sub> <player_name> <amount>
+   cpreturn:
+      description: Returns player to their checkpoint
+      usage: /cpreturn <player_name>
 permissions:
    marioworld.admincommands:
       description: Any of the administration commands

@@ -212,6 +212,7 @@ public class MarioMain extends JavaPlugin{
       getCommand("cancelwarppipe").setExecutor(new WarpStuff(this));
       getCommand("mario").setExecutor(new PlayerStuff(this));
       getCommand("marioscore").setExecutor(new PlayerStuff(this));
+      getCommand("cpreturn").setExecutor(new PlayerStuff(this));
 
       spanishLocale = new Locale("spa", "ES");
       aussieLocale = new Locale("aus", "AU");
