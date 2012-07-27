@@ -56,8 +56,10 @@ public class PlayerStuff implements CommandExecutor{
       else if(cmd.getName().compareToIgnoreCase("marioscore") == 0){
          if(sender.hasPermission("marioworld.admincommands")){
             if(args.length == 1){
-               if(plugin.getPlayerMap().get(args[0]) != null)
-                  sender.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(plugin.getPlayerMap().get(args[0]).getCoins()));
+               if(plugin.getServer().getPlayer(args[0]) != null)
+                  sender.sendMessage(plugin.getCurrentRB().getString("Coins") + ": " + Integer.toString(plugin.getPlayerMap().get(plugin.getServer().getPlayer(args[0]).getName()).getCoins()));
+               else
+                  sender.sendMessage(plugin.getCurrentRB().getString("NoneOnline"));
             }
             else
                sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
@@ -77,6 +79,8 @@ public class PlayerStuff implements CommandExecutor{
                   plugin.getServer().getPlayer(args[0]).teleport(loc);
                   sender.sendMessage("*woosh*");
                }
+               else
+                  sender.sendMessage(plugin.getCurrentRB().getString("NoneOnline"));
             }
             else
                sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
