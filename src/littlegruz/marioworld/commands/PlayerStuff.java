@@ -2,6 +2,7 @@ package littlegruz.marioworld.commands;
 
 import littlegruz.marioworld.MarioMain;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -60,14 +61,20 @@ public class PlayerStuff implements CommandExecutor{
             }
             else
                sender.sendMessage(plugin.getCurrentRB().getString("WrongArguments"));
-         }else
+         }
+         else
             sender.sendMessage(plugin.getCurrentRB().getString("PermissionDeny"));
       }
       else if(cmd.getName().compareToIgnoreCase("cpreturn") == 0){
          if(sender.hasPermission("marioworld.admincommands")){
             if(args.length == 1){
                if(plugin.getServer().getPlayer(args[0]) != null){
-                  plugin.getServer().getPlayer(args[0]).teleport(plugin.getPlayerMap().get(args[0]).getCheckpoint());
+                  Location loc;
+                  
+                  loc = plugin.getPlayerMap().get(plugin.getServer().getPlayer(args[0]).getName()).getCheckpoint().clone();
+                  loc.setX(loc.getX() + 0.5);
+                  loc.setZ(loc.getZ() + 0.5);
+                  plugin.getServer().getPlayer(args[0]).teleport(loc);
                   sender.sendMessage("*woosh*");
                }
             }

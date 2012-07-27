@@ -193,8 +193,8 @@ public class MarioPlayerListener implements Listener{
             event.setCancelled(true);
             if(!mp.isInvincible()){
                if(mp.getState().compareToIgnoreCase("Small") == 0){
-                  event.getPlayer().damage(1000);
                   plugin.deathSequence(event.getPlayer());
+                  event.getPlayer().damage(1000);
                } else if(mp.getState().compareToIgnoreCase("Fire") == 0){
                   event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + plugin.getCurrentRB().getString("Shrink"));
                   plugin.getPlayerMap().get(event.getPlayer().getName()).setState("Large");
@@ -336,7 +336,6 @@ public class MarioPlayerListener implements Listener{
             mp.setLives(plugin.getDefaultLives());
             mp.setCheckpoint(event.getEntity().getWorld().getSpawnLocation());
          }
-         
          mp.setState("Small");
       }
    }

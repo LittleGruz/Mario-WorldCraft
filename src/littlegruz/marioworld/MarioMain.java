@@ -370,7 +370,7 @@ public class MarioMain extends JavaPlugin{
       mp.setLives(mp.getLives() - 1);
       
       if(mp.getLives() == 0){
-         //Play gameover music and display a large "Game Over" label
+         // Clear player checkpoint and reset coins if necessary
          //plugin.getServer().getPlayer(mp.getPlayaName()).sendMessage("Game Over");
          //plugin.getGui().placeGameOver(event.getPlayer());
          clearCheckpoint(mp.getPlayaName(), playa.getWorld().getName());
